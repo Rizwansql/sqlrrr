@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rizwan Pro WhatsApp Store</title>
+    <title>Rizwan WhatsApp AI Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold: #d4af37; --dark: #050505; --gray: #121212; --msg-in: #202c33; --msg-out: #005c4b; }
         body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 85px; overflow-x: hidden; }
         
+        /* Header & Products Area */
         .header { background: rgba(18, 18, 18, 0.95); padding: 12px 20px; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; text-align: center; }
         .logo { font-weight: bold; color: var(--gold); font-size: 1.1rem; text-transform: uppercase; }
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 15px; }
@@ -16,19 +17,18 @@
         .price { color: #2ecc71; font-weight: bold; font-size: 1.1rem; }
         .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; }
 
-        /* Floating WhatsApp Icon */
-        #chat-circle { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; z-index: 3000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 2px solid white; }
+        /* Full Screen WhatsApp Chat UI */
+        #chat-circle { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; z-index: 3000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         
-        /* Full WhatsApp Chat UI */
         #chat-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; display: none; flex-direction: column; z-index: 4000; }
-        .chat-header { background: #202c33; color: white; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
-        .chat-header .close-chat { font-size: 1.4rem; cursor: pointer; padding-right: 10px; color: #fff; }
+        .chat-header { background: #202c33; color: white; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; border-bottom: 1px solid #333; }
+        .chat-header i { cursor: pointer; font-size: 1.2rem; }
         
-        #chat-content { flex: 1; padding: 20px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
+        #chat-content { flex: 1; padding: 20px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-attachment: fixed; }
         
         .msg { max-width: 80%; padding: 10px 15px; border-radius: 10px; margin-bottom: 10px; font-size: 0.95rem; line-height: 1.4; position: relative; }
         .msg-ai { background: var(--msg-in); align-self: flex-start; border-top-left-radius: 0; }
-        .msg-user { background: var(--msg-out); align-self: flex-end; border-top-right-radius: 0; margin-left: auto; }
+        .msg-user { background: var(--msg-out); align-self: flex-end; border-top-right-radius: 0; margin-left: auto; text-align: left; }
 
         .chat-input-area { background: #202c33; padding: 10px 15px; display: flex; align-items: center; gap: 10px; }
         .chat-input-area input { flex: 1; background: #2a3942; border: none; padding: 12px 15px; color: white; border-radius: 25px; outline: none; font-size: 1rem; }
@@ -38,8 +38,8 @@
 <body>
 
     <div class="header">
-        <div class="logo">RIZWAN PREMIUM HUB</div>
-        <div style="font-size:0.6rem; color:#aaa;">SECURE TOPUP & AI ASSISTANT</div>
+        <div class="logo">RIZWAN PREMIUM STORE</div>
+        <div style="font-size:0.7rem; color:#aaa;">WHATSAPP AI SUPPORT ACTIVE</div>
     </div>
 
     <div class="container" id="productGrid"></div>
@@ -48,15 +48,80 @@
 
     <div id="chat-box">
         <div class="chat-header">
-            <i class="fas fa-arrow-left close-chat" onclick="toggleChat()"></i>
+            <i class="fas fa-arrow-left" onclick="toggleChat()"></i>
             <img src="https://img.icons8.com/color/48/bot.png" width="35">
-            <div>AI Support Assistant<br><small style="font-weight:normal; color:#25d366;">Online</small></div>
+            <div>Rizwan Store AI<br><small style="font-weight:normal; color:#25d366;">Online</small></div>
         </div>
         
-        <div id="chat-content">
-            <div class="msg msg-ai">नमस्ते! मैं रिज़वान का AI हूँ। मैं आपकी क्या मदद कर सकता हूँ?</div>
+        <div id="chat-content" style="display: flex; flex-direction: column;">
+            <div class="msg msg-ai">नमस्ते! मैं रिज़वान का असिस्टेंट हूँ। मैं आपकी क्या मदद कर सकता हूँ?</div>
         </div>
 
+        <div class="chat-input-area">
+            <input type="text" id="userInput" placeholder="मैसेज लिखें..." onkeypress="handleEnter(event)">
+            <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        // Products List
+        const cards = [
+            { name: "Visa Debit", type: "Non VVV", bal: "3000", price: "200", img: "https://img.icons8.com/color/144/visa.png" },
+            { name: "MasterCard", type: "Premium", bal: "5000", price: "450", img: "https://img.icons8.com/color/144/mastercard.png" },
+            { name: "Amex Card", type: "Gold", bal: "8000", price: "700", img: "https://img.icons8.com/color/144/amex.png" }
+        ];
+
+        const grid = document.getElementById('productGrid');
+        cards.forEach(card => {
+            grid.innerHTML += `
+                <div class="card">
+                    <img src="${card.img}">
+                    <h3>${card.name}</h3>
+                    <div class="det">${card.type} | Bal: ₹${card.bal}</div>
+                    <span class="price">₹${card.price}</span>
+                    <button class="buy-btn">Buy Now</button>
+                </div>`;
+        });
+
+        function toggleChat() {
+            const box = document.getElementById('chat-box');
+            box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Send on Enter Key
+        function handleEnter(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chat = document.getElementById('chat-content');
+            if(!input.value) return;
+            
+            const userText = input.value;
+            chat.innerHTML += `<div class="msg msg-user">${userText}</div>`;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBflTFlohM4VVVMHqQF6iGvVhKV2DEuLyM`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `You are Rizwan's Assistant. Store: Visa ₹200, Mastercard ₹450, Amex ₹700. Payment: UPI/BTC. WhatsApp: +919012277862. Answer briefly in Hindi like WhatsApp chat. User: ${userText}` }] }] })
+                });
+                const data = await response.json();
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                chat.innerHTML += `<div class="msg msg-ai">${aiResponse}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            } catch(e) {
+                chat.innerHTML += `<div class="msg msg-ai" style="color:#ff4d4d;">माफी चाहता हूँ, सर्वर कनेक्ट नहीं हो पाया।</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
         <div class="chat-input-area">
             <input type="text" id="userInput" placeholder="मैसेज टाइप करें..." onkeypress="handleEnter(event)">
             <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
