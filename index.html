@@ -3,42 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rizwan Topup Store</title>
+    <title>Rizwan AI Premium Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold: #d4af37; --dark: #050505; --gray: #121212; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 85px; }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 85px; overflow-x: hidden; }
         
-        /* Header & Centered Title */
+        /* Header */
         .header { background: rgba(18, 18, 18, 0.95); padding: 12px 20px; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; box-sizing: border-box; text-align: center; backdrop-filter: blur(10px); }
-        .logo-box { width: 100%; }
-        .logo { font-weight: bold; color: var(--gold); font-size: 1.1rem; letter-spacing: 1px; margin: 0; text-transform: uppercase; }
+        .logo { font-weight: bold; color: var(--gold); font-size: 1.1rem; letter-spacing: 1px; text-transform: uppercase; margin: 0; }
         .sub-logo { font-size: 0.65rem; color: #aaa; margin-top: 3px; font-weight: bold; }
         .menu-icon { position: absolute; right: 20px; top: 22px; font-size: 1.4rem; color: var(--gold); cursor: pointer; }
-        
-        /* Side Menu & Overlay */
+
+        /* Side Menu */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1001; }
         .side-menu { position: fixed; right: -280px; top: 0; width: 280px; height: 100%; background: var(--gray); transition: 0.4s ease; z-index: 1002; padding-top: 80px; border-left: 2px solid var(--gold); }
-        .side-menu a { display: flex; align-items: center; padding: 18px 25px; color: white; text-decoration: none; border-bottom: 1px solid #222; font-size: 1rem; }
-        .side-menu i { margin-right: 15px; width: 25px; color: var(--gold); font-size: 1.2rem; }
+        .side-menu a { display: flex; align-items: center; padding: 18px 25px; color: white; text-decoration: none; border-bottom: 1px solid #222; }
+        .side-menu i { margin-right: 15px; color: var(--gold); }
 
-        /* Product Cards Grid */
+        /* Product Cards */
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 15px; max-width: 1200px; margin: auto; }
-        .card { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); border: 1px solid #333; border-radius: 12px; padding: 15px; text-align: center; transition: 0.3s; }
-        .card:hover { border-color: var(--gold); transform: translateY(-3px); }
-        .card img { width: 65px; margin-bottom: 10px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); }
-        .card h3 { font-size: 0.95rem; margin: 5px 0; color: #fff; }
-        .card .details { font-size: 0.75rem; color: #aaa; margin: 2px 0; }
-        .card .balance { font-size: 0.8rem; color: var(--gold); font-weight: bold; margin: 5px 0; }
+        .card { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 15px; text-align: center; transition: 0.3s; }
+        .card img { width: 65px; margin-bottom: 10px; }
+        .card h3 { font-size: 0.95rem; margin: 5px 0; }
+        .card .det { font-size: 0.75rem; color: #aaa; }
+        .card .bal { font-size: 0.8rem; color: var(--gold); font-weight: bold; margin: 5px 0; }
         .price { color: #2ecc71; font-weight: bold; display: block; margin: 8px 0; font-size: 1.1rem; }
-        .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 0.8rem; }
+        .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; }
 
-        /* Payment Modal */
-        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); padding-top: 50px; }
-        .modal-content { background: #151515; margin: auto; padding: 25px; width: 85%; max-width: 400px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); position: relative; }
-        .pay-option { display: block; background: #222; padding: 15px; margin: 12px 0; border-radius: 12px; text-decoration: none; color: white; border: 1px solid #333; font-weight: bold; }
-        .qr-img { width: 200px; margin: 15px auto; border-radius: 10px; display: none; border: 3px solid white; }
-        .close-btn { color: #777; font-size: 20px; cursor: pointer; margin-top: 15px; background: none; border: none; }
+        /* Modals */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); padding-top: 50px; overflow-y: auto; }
+        .modal-content { background: #151515; margin: auto; padding: 25px; width: 85%; max-width: 400px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); }
+        .pay-option { display: block; background: #222; padding: 15px; margin: 10px 0; border-radius: 10px; text-decoration: none; color: white; font-weight: bold; }
+        .qr-img { width: 220px; height: 220px; margin: 15px auto; border: 4px solid white; border-radius: 10px; display: none; }
+
+        /* AI Chatbot */
+        #chat-circle { position: fixed; bottom: 20px; right: 20px; background: var(--gold); width: 60px; height: 60px; border-radius: 50%; color: black; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; z-index: 3000; }
+        #chat-box { position: fixed; bottom: 90px; right: 20px; width: 300px; height: 400px; background: #1a1a1a; border: 1px solid var(--gold); border-radius: 15px; display: none; flex-direction: column; z-index: 3000; }
+        .chat-header { background: var(--gold); color: black; padding: 10px; font-weight: bold; text-align: center; border-radius: 15px 15px 0 0; }
+        #chat-content { flex: 1; padding: 10px; overflow-y: auto; font-size: 13px; }
+        .chat-input { display: flex; padding: 10px; background: #222; }
+        .chat-input input { flex: 1; background: transparent; border: none; color: white; outline: none; }
     </style>
 </head>
 <body onclick="closeMenuOutside(event)">
@@ -46,10 +51,8 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
 
     <div class="header">
-        <div class="logo-box">
-            <div class="logo">TOPUP & PREMIUM HUB</div>
-            <div class="sub-logo">FREE FIRE | PUBG | FLIPKART | MEESHO</div>
-        </div>
+        <div class="logo">TOPUP & PREMIUM HUB</div>
+        <div class="sub-logo">FREE FIRE | AI SUPPORT | SAFE PAYMENT</div>
         <div class="menu-icon" onclick="event.stopPropagation(); toggleMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
@@ -63,22 +66,24 @@
 
     <div id="payModal" class="modal">
         <div class="modal-content">
-            <h2 id="itemTitle" style="color:var(--gold); margin:0;"></h2>
-            <p id="itemPrice" style="color:#2ecc71; font-size:1.3rem; font-weight:bold; margin:10px 0;"></p>
-            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
-            
-            <a href="#" id="upiLink" class="pay-option" onclick="showQR('upi')">
-                <i class="fas fa-bolt" style="color:#00b894;"></i> UPI (PhonePe / GPay)
-            </a>
+            <h2 id="itemTitle" style="color:var(--gold)"></h2>
+            <p id="itemPrice" style="color:#2ecc71; font-size:1.4rem;"></p>
+            <div class="pay-option" onclick="showQR('upi')" style="cursor:pointer;">UPI (PhonePe/GPay)</div>
             <img src="https://i.ibb.co/LhyM4b8/upi-qr.jpg" id="upiQR" class="qr-img">
-
-            <div class="pay-option" onclick="showQR('btc')" style="cursor:pointer;">
-                <i class="fab fa-bitcoin" style="color:#f7931a;"></i> Crypto (BTC/USDT)
-            </div>
+            <div class="pay-option" onclick="showQR('btc')" style="cursor:pointer;">Crypto (BTC/USDT)</div>
             <img src="https://i.ibb.co/pW4mB6w/btc-qr.jpg" id="btcQR" class="qr-img">
-            <p id="btcAddr" style="font-size:0.65rem; color:var(--gold); display:none; word-break:break-all; background:#000; padding:10px; border-radius:5px;">0xea67ed86d2a3f145a37f008c5bc0c523b50a039a</p>
-            
-            <button class="close-btn" onclick="closeModal()">[ बंद करें ]</button>
+            <p id="btcAddr" style="font-size:0.6rem; color:var(--gold); display:none; word-break:break-all; background:#000; padding:10px; border-radius:5px;">0xea67ed86d2a3f145a37f008c5bc0c523b50a039a</p>
+            <button onclick="closeModal()" style="background:none; border:none; color:#777; margin-top:15px; cursor:pointer;">[ Close ]</button>
+        </div>
+    </div>
+
+    <div id="chat-circle" onclick="toggleChat()"><i class="fas fa-robot"></i></div>
+    <div id="chat-box">
+        <div class="chat-header">Rizwan AI Support</div>
+        <div id="chat-content">नमस्ते! मैं रिज़वान का AI हूँ। मैं आपकी क्या मदद कर सकता हूँ?</div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="यहाँ लिखें...">
+            <button onclick="sendMessage()" style="background:none; border:none; color:var(--gold); cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
@@ -86,62 +91,75 @@
         const cards = [
             { name: "Visa Debit", type: "Non VVV", bal: "3000", price: "200", img: "https://img.icons8.com/color/144/visa.png" },
             { name: "MasterCard", type: "Premium", bal: "5000", price: "450", img: "https://img.icons8.com/color/144/mastercard.png" },
-            { name: "Amex Card", type: "Gold Edition", bal: "8000", price: "700", img: "https://img.icons8.com/color/144/amex.png" },
-            { name: "Visa Credit", type: "Business", bal: "12000", price: "1000", img: "https://img.icons8.com/color/144/visa.png" },
-            { name: "Visa Platinum", type: "High Limit", bal: "15000", price: "1350", img: "https://img.icons8.com/color/144/visa.png" }
+            { name: "Amex Card", type: "Gold", bal: "8000", price: "700", img: "https://img.icons8.com/color/144/amex.png" },
+            { name: "Visa Credit", type: "Business", bal: "12000", price: "1000", img: "https://img.icons8.com/color/144/visa.png" }
         ];
 
         const grid = document.getElementById('productGrid');
-        // Creating 20 cards (4 sets of the list)
         for(let i=0; i<4; i++) {
             cards.forEach(card => {
                 grid.innerHTML += `
                     <div class="card">
                         <img src="${card.img}">
                         <h3>${card.name}</h3>
-                        <div class="details">${card.type}</div>
-                        <div class="balance">Bal: ₹${card.bal}</div>
+                        <div class="det">${card.type}</div>
+                        <div class="bal">Bal: ₹${card.bal}</div>
                         <span class="price">₹${card.price}</span>
                         <button class="buy-btn" onclick="openModal('${card.name}', ${card.price})">Buy Now</button>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
         function toggleMenu() {
-            const menu = document.getElementById('sideMenu');
-            const overlay = document.getElementById('overlay');
-            const isOpen = menu.style.right === '0px';
-            menu.style.right = isOpen ? '-280px' : '0px';
-            overlay.style.display = isOpen ? 'none' : 'block';
+            const m = document.getElementById('sideMenu');
+            const o = document.getElementById('overlay');
+            const open = m.style.right === '0px';
+            m.style.right = open ? '-280px' : '0px';
+            o.style.display = open ? 'none' : 'block';
         }
 
-        function closeMenuOutside(event) {
-            const menu = document.getElementById('sideMenu');
-            if (menu.style.right === '0px' && !menu.contains(event.target)) {
-                toggleMenu();
-            }
+        function closeMenuOutside(e) {
+            if (document.getElementById('sideMenu').style.right === '0px' && !document.getElementById('sideMenu').contains(e.target)) toggleMenu();
         }
 
-        function openModal(name, price) {
+        function openModal(n, p) {
             document.getElementById('payModal').style.display = 'block';
-            document.getElementById('itemTitle').innerText = name;
-            document.getElementById('itemPrice').innerText = "कुल राशि: ₹" + price;
-            const upiId = "rizwanhasan90122778623@ybl";
-            document.getElementById('upiLink').href = `upi://pay?pa=${upiId}&pn=RizwanStore&am=${price}&cu=INR`;
-            // Reset views
+            document.getElementById('itemTitle').innerText = n;
+            document.getElementById('itemPrice').innerText = "₹" + p;
             document.getElementById('upiQR').style.display = 'none';
             document.getElementById('btcQR').style.display = 'none';
             document.getElementById('btcAddr').style.display = 'none';
         }
 
-        function showQR(type) {
-            document.getElementById('upiQR').style.display = type === 'upi' ? 'block' : 'none';
-            document.getElementById('btcQR').style.display = type === 'btc' ? 'block' : 'none';
-            document.getElementById('btcAddr').style.display = type === 'btc' ? 'block' : 'none';
+        function showQR(t) {
+            document.getElementById('upiQR').style.display = t === 'upi' ? 'block' : 'none';
+            document.getElementById('btcQR').style.display = t === 'btc' ? 'block' : 'none';
+            document.getElementById('btcAddr').style.display = t === 'btc' ? 'block' : 'none';
         }
 
         function closeModal() { document.getElementById('payModal').style.display = 'none'; }
+        function toggleChat() { const b = document.getElementById('chat-box'); b.style.display = b.style.display === 'flex' ? 'none' : 'flex'; }
+
+        async function sendMessage() {
+            const i = document.getElementById('userInput');
+            const c = document.getElementById('chat-content');
+            if(!i.value) return;
+            c.innerHTML += `<p style="text-align:right;"><b>You:</b> ${i.value}</p>`;
+            const txt = i.value; i.value = '';
+            
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBflTFlohM4VVVMHqQF6iGvVhKV2DEuLyM`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `Answer in Hindi: You are Rizwan's Assistant. Store sells Visa/Mastercards (₹200-₹1000). Payment: UPI/BTC. WhatsApp: +919012277862. User: ${txt}` }] }] })
+                });
+                const d = await res.json();
+                c.innerHTML += `<p style="color:var(--gold);"><b>AI:</b> ${d.candidates[0].content.parts[0].text}</p>`;
+                c.scrollTop = c.scrollHeight;
+            } catch(e) { c.innerHTML += `<p style="color:red;">Error connecting AI.</p>`; }
+        }
     </script>
+</body>
+</html>
 </body>
 </html>
