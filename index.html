@@ -12,41 +12,41 @@
 
         /* Navigation */
         .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; overflow: hidden; text-align: center; font-size: 11px; }
-        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--gold); }
+        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; width: 100%; }
+        .logo { font-size: 1.2rem; font-weight: 900; color: var(--gold); }
         
-        /* Side Menu Style */
-        .menu-icon { font-size: 1.5rem; color: var(--gold); cursor: pointer; }
-        .side-menu { position: fixed; top: 0; right: -250px; width: 250px; height: 100%; background: #111; z-index: 7000; transition: 0.4s; padding-top: 60px; border-left: 2px solid var(--gold); }
+        /* Side Menu */
+        .menu-icon { font-size: 1.5rem; color: var(--gold); cursor: pointer; padding: 5px; }
+        .side-menu { position: fixed; top: 0; right: -260px; width: 260px; height: 100%; background: #111; z-index: 7000; transition: 0.4s; padding-top: 80px; border-left: 2px solid var(--gold); box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
         .side-menu.active { right: 0; }
-        .menu-item { padding: 15px 25px; display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; font-weight: bold; border-bottom: 1px solid #222; }
-        .menu-item i { color: var(--gold); font-size: 1.2rem; }
-        .menu-item:active { background: #222; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 6500; display: none; }
+        .menu-item { padding: 18px 25px; display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; font-weight: bold; border-bottom: 1px solid #222; }
+        .menu-item i { color: var(--gold); width: 25px; text-align: center; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 6500; display: none; }
 
-        /* Grid - Bottom Fixed */
+        /* Grid Layout Fix (Cards Professional View) */
         .container { padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding-bottom: 120px; height: calc(100vh - 100px); overflow-y: auto; }
-        .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; text-align: center; transition: 0.3s; }
-        .card img { height: 45px; margin-bottom: 8px; }
-        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 8px 0; display: block; }
-        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; }
+        .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 15px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .card img { height: 40px; width: auto; margin-bottom: 10px; object-fit: contain; }
+        .card b { font-size: 0.9rem; margin-bottom: 5px; color: #fff; }
+        .card .bal { color: #888; font-size: 11px; margin-bottom: 8px; }
+        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 5px 0 12px 0; }
+        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
 
-        /* AI Window Keyboard Fix */
+        /* AI Window */
         #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100dvh; background: #0b141a; z-index: 5000; display: none; flex-direction: column; }
-        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
+        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; border-bottom: 1px solid #333; }
         .ai-body { flex: 1; padding: 15px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
         .ai-footer { background: #202c33; padding: 10px; display: flex; gap: 8px; align-items: center; }
         .ai-footer input { flex: 1; border-radius: 25px; border: none; padding: 12px; background: #2a3942; color: white; font-size: 16px; outline: none; }
-        .msg { padding: 10px 14px; border-radius: 12px; margin: 5px 0; max-width: 85%; font-size: 0.95rem; line-height: 1.4; }
-        .msg-ai { background: #202c33; align-self: flex-start; }
-        .msg-user { background: #005c4b; align-self: flex-end; }
+        .msg { padding: 10px 14px; border-radius: 12px; margin: 5px 0; max-width: 85%; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+        .msg-ai { background: #202c33; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .msg-user { background: #005c4b; align-self: flex-end; border-bottom-right-radius: 2px; }
 
-        /* Payment UI */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 6000; display: none; justify-content: center; align-items: center; }
-        .pay-box { background: #111; padding: 20px; border: 2px solid var(--gold); border-radius: 20px; width: 92%; max-width: 400px; text-align: center; }
-        .pay-opt { background: #222; margin: 10px 0; padding: 12px; border-radius: 10px; display: flex; align-items: center; gap: 12px; color: white; font-weight: bold; text-decoration: none; border: 1px solid #333; }
+        /* Payment Modal */
+        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 8000; display: none; justify-content: center; align-items: center; }
+        .pay-box { background: #111; padding: 25px; border: 2px solid var(--gold); border-radius: 20px; width: 90%; max-width: 380px; text-align: center; }
         
-        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; border: 2px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; border: 2px solid white; }
     </style>
 </head>
 <body>
@@ -61,21 +61,24 @@
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="side-menu" id="sideMenu">
         <a href="#" class="menu-item" onclick="toggleMenu()"><i class="fas fa-home"></i> Home</a>
-        <a href="#" class="menu-item" onclick="toggleMenu()"><i class="fas fa-wallet"></i> High Balance Card</a>
-        <a href="https://wa.me/919012277862" class="menu-item"><i class="fab fa-whatsapp"></i> WhatsApp Support</a>
-        <div style="padding: 20px; font-size: 10px; color: #555;">© 2025 SQL Hub | Rizwan Hacker</div>
+        <a href="#" class="menu-item" onclick="toggleMenu()"><i class="fas fa-gem"></i> High Balance Card</a>
+        <a href="https://wa.me/919012277862" class="menu-item"><i class="fab fa-whatsapp"></i> WhatsApp Admin</a>
+        <div style="margin-top: 50px; text-align: center; font-size: 11px; color: #555;">© 2025 SQL Hub | Rizwan Hacker</div>
     </div>
 
     <div class="container" id="grid"></div>
     <div class="wa-btn" onclick="toggleAI()"><i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i></div>
 
     <div id="ai-window">
-        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()"></i> SQL Smart AI (Gemini v2)</div>
+        <div class="ai-header">
+            <i class="fas fa-arrow-left" onclick="toggleAI()" style="color:var(--gold)"></i> 
+            <span>SQL Smart AI Support</span>
+        </div>
         <div class="ai-body" id="chat">
-            <div class="msg msg-ai">Namaste Rizwan bhai! Main SQL Hub AI hoon. Main aapki kaise madad kar sakta hoon?</div>
+            <div class="msg msg-ai">Namaste Rizwan bhai! Main SQL Hub AI hoon. Main aapki kya madad kar sakta hoon?</div>
         </div>
         <div class="ai-footer">
-            <input type="text" id="ai-input" placeholder="Yahan likhein..." autocomplete="off">
+            <input type="text" id="ai-input" placeholder="Type a message..." autocomplete="off">
             <button onclick="sendMsg()" style="background:none; border:none; color:var(--wa); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
@@ -83,19 +86,18 @@
     <div id="pay-modal">
         <div class="pay-box">
             <h3 style="color:var(--gold)">SECURE CHECKOUT</h3>
-            <p id="amt" style="color:#00ff88; font-weight:bold; font-size:1.3rem;"></p>
-            <a id="uLink" href="#" class="pay-opt"><img src="https://img.icons8.com/color/48/phone-pe.png" width="30"> PhonePe / UPI</a>
-            <div class="pay-opt" onclick="copyAddr('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')"><img src="https://img.icons8.com/color/48/tether.png" width="30"> USDT (BEP20)</div>
-            <input type="text" id="txid" style="width:100%; padding:10px; margin-top:15px; background:#000; border:1px solid #444; color:white; border-radius:8px;" placeholder="Transaction ID Daalein">
-            <button class="buy" style="margin-top:10px; background:#00ff88;" onclick="verifyTx()">VERIFY PAYMENT</button>
-            <button onclick="closePay()" style="background:var(--red); color:white; border:none; padding:10px; width:100%; margin-top:10px; border-radius:8px;">CLOSE</button>
+            <p id="amt" style="color:#00ff88; font-weight:bold; font-size:1.4rem;"></p>
+            <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:15px; display:flex; align-items:center; justify-content:center; gap:10px;">
+               <img src="https://img.icons8.com/color/48/phone-pe.png" width="30"> 
+               <a id="uLink" href="#" style="color:white; text-decoration:none; font-weight:bold;">Pay via UPI</a>
+            </div>
+            <button onclick="closePay()" style="background:var(--red); color:white; border:none; padding:12px; width:100%; border-radius:8px; font-weight:bold;">CANCEL</button>
         </div>
     </div>
 
     <script>
-        // 1. APNI GEMINI KEY YAHAN DAALEIN
-        const GEMINI_KEY = "YAHAN_APNI_NEW_KEY_DAALEIN"; 
-        let verifyCount = 0;
+        // API KEY SET BY GEMINI
+        const GEMINI_KEY = "AIzaSyDNYPkv7I-5OMVhku69FiewOYGy4wdg6O0"; 
 
         function toggleMenu() {
             document.getElementById('sideMenu').classList.toggle('active');
@@ -106,13 +108,6 @@
         function toggleAI() { 
             const w = document.getElementById('ai-window'); 
             w.style.display = (w.style.display === 'flex') ? 'none' : 'flex'; 
-        }
-
-        // KEYBOARD FIX
-        if (window.visualViewport) {
-            window.visualViewport.addEventListener('resize', () => {
-                document.getElementById('ai-window').style.height = window.visualViewport.height + 'px';
-            });
         }
 
         async function sendMsg() {
@@ -136,33 +131,34 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Aap SQL PREMIUM HUB ke assistant hain. Rizwan (Ethical Hacker) owner hain. Cards: Visa Gold (1000), Master Elite (650), Amex (450). Hinglish mein jawab dein. User: ${userText}` }] }]
+                        contents: [{ parts: [{ text: `You are the expert assistant for SQL PREMIUM HUB. Owner is Rizwan (Ethical Hacker). You sell Visa Gold (1000 INR), Master Elite (650 INR), and Amex (450 INR). Answer in Hinglish. Be polite and professional. User Query: ${userText}` }] }]
                     })
                 });
+                
                 const data = await response.json();
-                const aiReply = data.candidates[0].content.parts[0].text;
                 chat.removeChild(thinking);
-                chat.innerHTML += `<div class="msg msg-ai">${aiReply}</div>`;
+                
+                if(data.candidates && data.candidates[0].content) {
+                    const aiReply = data.candidates[0].content.parts[0].text;
+                    chat.innerHTML += `<div class="msg msg-ai">${aiReply}</div>`;
+                } else {
+                    chat.innerHTML += `<div class="msg msg-ai">Sorry, I am having trouble connecting. Try again later.</div>`;
+                }
             } catch (e) {
                 chat.removeChild(thinking);
-                chat.innerHTML += `<div class="msg msg-ai">Rizwan bhai, API connect nahi hui!</div>`;
+                chat.innerHTML += `<div class="msg msg-ai">Network Issue. Please check connection.</div>`;
             }
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function verifyTx() {
-            const btn = document.querySelector('.buy');
-            btn.innerText = "VERIFYING...";
-            setTimeout(() => {
-                btn.innerText = "MANUAL CHECK NEEDED ⚠️";
-                btn.style.background = "orange";
-            }, 2500);
+        function openPay(p) { 
+            document.getElementById('pay-modal').style.display = 'flex'; 
+            document.getElementById('amt').innerText = "Amount: ₹" + p; 
+            document.getElementById('uLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR`; 
         }
-
-        function openPay(p) { document.getElementById('pay-modal').style.display = 'flex'; document.getElementById('amt').innerText = "Total: ₹" + p; document.getElementById('uLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR`; }
         function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
-        function copyAddr(a) { navigator.clipboard.writeText(a); alert("Address Copied!"); }
 
+        // Professional Cards Generator
         const items = [
             { n: "Visa Gold", p: "1000", b: "12,000", i: "https://img.icons8.com/color/96/visa.png" },
             { n: "Master Elite", p: "650", b: "8,500", i: "https://img.icons8.com/color/96/mastercard.png" },
@@ -171,7 +167,14 @@
         const g = document.getElementById('grid');
         for(let i=1; i<=32; i++) {
             let c = items[i % 3];
-            g.innerHTML += `<div class="card"><img src="${c.i}"><b>${c.n} #${i}</b><div style="color:var(--gold); font-size:12px;">Bal: ₹${c.b}</div><span class="price">₹${c.p}</span><button class="buy" onclick="openPay('${c.p}')">Buy Now</button></div>`;
+            g.innerHTML += `
+                <div class="card">
+                    <img src="${c.i}">
+                    <b>${c.n} #${i}</b>
+                    <div class="bal">Bal: ₹${c.b}</div>
+                    <span class="price">₹${c.p}</span>
+                    <button class="buy" onclick="openPay('${c.p}')">Buy Now</button>
+                </div>`;
         }
     </script>
 </body>
