@@ -6,137 +6,102 @@
     <title>SQL PREMIUM HUB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #000; --card-bg: #111; --wa-green: #25d366; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 110px; overflow-x: hidden; }
+        :root { --gold: #ffcc00; --dark: #000; --card: #111; --wa: #25d366; }
+        body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; padding-top: 100px; }
 
-        /* Top Moving Line */
-        .marquee-container { background: var(--gold); color: black; position: fixed; top: 0; width: 100%; z-index: 2000; padding: 5px 0; font-weight: bold; overflow: hidden; }
-        .marquee-text { display: inline-block; white-space: nowrap; animation: marquee 15s linear infinite; font-size: 0.9rem; }
-        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        /* Top Moving Text */
+        .top-bar { background: var(--gold); color: black; position: fixed; top: 0; width: 100%; z-index: 3000; padding: 5px 0; font-weight: 900; overflow: hidden; height: 25px; }
+        .marquee { display: inline-block; white-space: nowrap; animation: move 15s linear infinite; }
+        @keyframes move { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* Header & Menu */
-        .header { background: #000; position: fixed; top: 28px; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; display: flex; justify-content: center; align-items: center; padding: 15px 0; }
-        .logo-main { font-weight: 900; color: var(--gold); font-size: 1.4rem; letter-spacing: 1px; }
-        .menu-icon { position: absolute; right: 20px; color: var(--gold); font-size: 1.5rem; cursor: pointer; }
+        /* Fixed Header */
+        .header { background: #000; position: fixed; top: 25px; width: 100%; border-bottom: 2px solid var(--gold); z-index: 2000; display: flex; justify-content: center; align-items: center; padding: 15px 0; }
+        .logo { font-weight: 900; color: var(--gold); font-size: 1.5rem; }
+        .m-btn { position: absolute; right: 20px; color: var(--gold); font-size: 1.5rem; cursor: pointer; }
 
-        /* Side Navigation */
-        .side-nav { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #000; z-index: 3000; transition: 0.4s; border-left: 2px solid var(--gold); padding-top: 60px; }
-        .side-nav a { display: block; padding: 15px 25px; color: white; text-decoration: none; border-bottom: 1px solid #222; font-weight: bold; }
-        .side-nav a:hover { color: var(--gold); }
+        /* Menu */
+        .side-nav { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #000; z-index: 4000; transition: 0.4s; border-left: 2px solid var(--gold); }
+        .side-nav a { display: block; padding: 20px; color: white; text-decoration: none; font-weight: bold; border-bottom: 1px solid #222; }
 
-        /* Product Cards */
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 15px; }
-        .card { background: var(--card-bg); border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; }
+        /* Cards Layout */
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 20px; }
+        .card { background: var(--card); border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #333; }
         .card img { width: 50px; margin-bottom: 10px; }
-        .info-row { font-size: 0.8rem; color: #aaa; margin: 3px 0; }
-        .balance { color: var(--gold); font-weight: bold; font-size: 0.95rem; }
+        .details { font-size: 0.8rem; color: #888; margin-bottom: 5px; }
+        .bal { color: var(--gold); font-weight: bold; }
         .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 10px 0; display: block; }
-        .buy-btn { background: var(--gold); color: black; border: none; padding: 12px; border-radius: 8px; font-weight: 900; width: 100%; cursor: pointer; }
+        .buy { background: var(--gold); color: black; border: none; padding: 12px; border-radius: 8px; font-weight: 900; width: 100%; cursor: pointer; }
 
-        /* Full Screen AI Chat Window */
-        #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; z-index: 5000; display: none; flex-direction: column; }
-        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
-        .ai-header i { font-size: 1.4rem; cursor: pointer; color: var(--gold); }
-        .ai-body { flex: 1; padding: 20px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
-        .msg { max-width: 85%; padding: 12px; border-radius: 12px; margin-bottom: 10px; font-size: 0.95rem; line-height: 1.4; }
-        .msg-ai { background: #202c33; align-self: flex-start; color: white; }
-        .msg-user { background: #005c4b; align-self: flex-end; color: white; }
-        .ai-footer { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 10px; }
-        .ai-footer input { flex: 1; background: #2a3942; border: none; padding: 12px 20px; color: white; border-radius: 30px; outline: none; }
+        /* FULL SCREEN AI WINDOW */
+        #ai-full { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; z-index: 5000; display: none; flex-direction: column; }
+        .ai-head { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
+        .ai-body { flex: 1; padding: 20px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); }
+        .ai-foot { background: #202c33; padding: 15px; display: flex; gap: 10px; }
+        .ai-foot input { flex: 1; border-radius: 30px; border: none; padding: 12px; outline: none; }
 
         /* Floating WA Button */
-        #wa-trigger { position: fixed; bottom: 20px; right: 20px; background: var(--wa-green); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4000; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-
-        /* Payment Modal */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center; z-index: 6000; }
-        .pay-box { background: #111; padding: 25px; border-radius: 20px; border: 2px solid var(--gold); width: 85%; max-width: 380px; text-align: center; }
-        .pay-opt { background: #222; padding: 15px; margin: 10px 0; border-radius: 12px; display: flex; justify-content: space-between; cursor: pointer; text-decoration: none; color: white; border: 1px solid #333; }
+        #wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <div class="marquee-container">
-        <div class="marquee-text">all card warking 💯 play stor free fire pupg mor in game Purchase &nbsp;&nbsp;&nbsp; all card warking 💯 play stor free fire pupg mor in game Purchase</div>
+    <div class="top-bar">
+        <div class="marquee">all card warking 💯 play stor free fire pupg mor in game Purchase &nbsp;&nbsp;&nbsp; all card warking 💯 play stor free fire pupg mor in game Purchase</div>
     </div>
 
     <div class="header">
-        <div class="logo-main">SQL PREMIUM HUB</div>
-        <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="logo">SQL PREMIUM HUB</div>
+        <div class="m-btn" onclick="openMenu()"><i class="fas fa-bars"></i></div>
     </div>
 
-    <div id="sideNav" class="side-nav">
-        <a href="#" onclick="toggleMenu()">HOME</a>
+    <div id="nav" class="side-nav">
+        <a href="#" onclick="closeMenu()">HOME</a>
         <a href="https://wa.me/919012277862" target="_blank">CONTACT US</a>
-        <a href="#" onclick="toggleMenu()" style="color:red; margin-top:20px;">CLOSE MENU</a>
+        <a href="#" onclick="closeMenu()" style="color:red">CLOSE</a>
     </div>
 
-    <div class="container" id="productGrid"></div>
+    <div class="container" id="grid"></div>
 
-    <div id="wa-trigger" onclick="toggleAI()">
-        <i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i>
-    </div>
+    <div id="wa-btn" onclick="toggleAI()"><i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i></div>
 
-    <div id="ai-window">
-        <div class="ai-header">
-            <i class="fas fa-arrow-left" onclick="toggleAI()"></i>
-            <span>SQL AI Support (Online)</span>
+    <div id="ai-full">
+        <div class="ai-head"><i class="fas fa-arrow-left" onclick="toggleAI()" style="cursor:pointer"></i> SQL AI Assistant</div>
+        <div class="ai-body" id="chat">
+            <div style="background:#202c33; padding:10px; border-radius:10px; margin-bottom:10px; max-width:80%;">नमस्ते Rizwan! मैं आपकी क्या मदद कर सकता हूँ?</div>
         </div>
-        <div class="ai-body" id="chatBody">
-            <div class="msg msg-ai">Namaste! SQL AI Support mein swagat hai. Main aapki kaise madad kar sakta hoon?</div>
-        </div>
-        <div class="ai-footer">
-            <input type="text" id="chatInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendMsg()">
-            <i class="fas fa-paper-plane" onclick="sendMsg()" style="color:var(--gold); font-size:1.2rem; cursor:pointer;"></i>
-        </div>
-    </div>
-
-    <div id="pay-modal">
-        <div class="pay-box">
-            <h3 style="color:var(--gold)">PAYMENT OPTIONS</h3>
-            <p id="pDisplay" style="color:#00ff88; font-weight:bold;"></p>
-            <a id="upiLink" href="#" class="pay-opt"><span><i class="fas fa-wallet"></i> UPI (PhonePe/GPay)</span> <i class="fas fa-chevron-right"></i></a>
-            <div class="pay-opt" onclick="alert('BTC (BEP20): 0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')"><span><i class="fab fa-bitcoin"></i> BTC (BEP20)</span></div>
-            <div class="pay-opt" onclick="alert('USDT (BEP20): 0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')"><span><i class="fas fa-dollar-sign"></i> USDT (BEP20)</span></div>
-            <button onclick="closePay()" style="background:red; color:white; border:none; padding:10px 20px; border-radius:8px; margin-top:15px;">BACK</button>
+        <div class="ai-foot">
+            <input type="text" placeholder="Type here...">
+            <button style="background:none; border:none; color:var(--wa); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
     <script>
-        function toggleMenu() {
-            const nav = document.getElementById('sideNav');
-            nav.style.right = (nav.style.right === '0px') ? '-280px' : '0px';
+        function openMenu() { document.getElementById('nav').style.right = '0'; }
+        function closeMenu() { document.getElementById('nav').style.right = '-280px'; }
+        function toggleAI() { 
+            const a = document.getElementById('ai-full');
+            a.style.display = (a.style.display === 'flex') ? 'none' : 'flex'; 
         }
 
-        function toggleAI() {
-            const win = document.getElementById('ai-window');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function sendMsg() {
-            const inp = document.getElementById('chatInput');
-            const body = document.getElementById('chatBody');
-            if(!inp.value) return;
-            body.innerHTML += `<div class="msg msg-user">${inp.value}</div>`;
-            inp.value = '';
-            setTimeout(() => {
-                body.innerHTML += `<div class="msg msg-ai">Aapka message mil gaya hai. Hamare cards 100% working hain. Aap 'Buy Now' par click karke order kar sakte hain.</div>`;
-                body.scrollTop = body.scrollHeight;
-            }, 1000);
-        }
-
-        function openPay(price) {
-            document.getElementById('pay-modal').style.display = 'flex';
-            document.getElementById('pDisplay').innerText = "Amount: ₹" + price;
-            document.getElementById('upiLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${price}&cu=INR`;
-        }
-        function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
-
-        const cardData = [
-            { n: "Visa Gold", p: "1000", b: "₹12,000", i: "visa" },
-            { n: "Master Elite", p: "650", b: "₹8,500", i: "mastercard" },
-            { n: "Amex Premium", p: "450", b: "₹5,000", i: "amex" },
-            { n: "Visa Classic", p: "300", b: "₹3,500", i: "visa" }
+        const cards = [
+            { n: "Visa Gold", b: "₹12,000", p: "1000", i: "visa" },
+            { n: "Master Elite", b: "₹8,500", p: "650", i: "mastercard" },
+            { n: "Amex Premium", b: "₹5,000", p: "450", i: "amex" }
         ];
 
-        const grid = document.getElementById('productGrid');
-        for(let i
+        const grid = document.getElementById('grid');
+        for(let i=1; i<=32; i++) {
+            let c = cards[i % cards.length];
+            grid.innerHTML += `
+                <div class="card">
+                    <img src="https://img.icons8.com/color/144/${c.i}.png">
+                    <div style="font-weight:bold;">${c.n} #${i}</div>
+                    <div class="details">Type: Non VVV</div>
+                    <div class="bal">Balance: ${c.b}</div>
+                    <span class="price">₹${c.p}</span>
+                    <button class="buy" onclick="alert('Opening Payment...')">Buy Now</button>
+                </div>`;
+        }
+    </script>
+</body>
+</html>
