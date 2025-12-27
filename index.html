@@ -6,122 +6,121 @@
     <title>SQL PREMIUM HUB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #000; --card: #111; --wa: #25d366; --insta: #e1306c; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 110px; }
+        :root { --gold: #ffcc00; --dark: #000; --card-bg: #111; --wa-green: #25d366; }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; }
 
-        /* Header & Centered Logo */
-        .header { background: #000; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; }
-        .logo-box { padding: 15px; display: flex; align-items: center; justify-content: center; position: relative; }
-        .logo-main { font-weight: 900; color: var(--gold); font-size: 1.4rem; text-align: center; width: 100%; }
-        .menu-btn { position: absolute; right: 20px; color: var(--gold); font-size: 1.5rem; cursor: pointer; }
+        /* Minimal Header */
+        .header { background: #000; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; text-align: center; padding: 20px 0; }
+        .logo-main { font-weight: 900; color: var(--gold); font-size: 1.6rem; letter-spacing: 2px; }
 
-        /* Side Menu */
-        .side-nav { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #000; z-index: 2000; transition: 0.4s; border-left: 2px solid var(--gold); }
-        .side-nav a { display: block; padding: 20px; color: white; text-decoration: none; border-bottom: 1px solid #222; font-weight: bold; }
-
-        /* Cards Grid */
+        /* Card Design */
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 15px; }
-        .card { background: var(--card); border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #333; }
-        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 10px 0; display: block; }
+        .card { background: var(--card-bg); border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #333; transition: 0.3s; }
+        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .card img { width: 55px; margin-bottom: 12px; }
+        .info-row { font-size: 0.85rem; margin: 4px 0; color: #bbb; }
+        .balance { color: var(--gold); font-weight: bold; font-size: 1rem; }
+        .price { color: #00ff88; font-size: 1.3rem; font-weight: bold; margin: 10px 0; display: block; }
         .buy-btn { background: var(--gold); color: black; border: none; padding: 12px; border-radius: 8px; font-weight: 900; width: 100%; cursor: pointer; }
 
-        /* Multi-Option Payment Popup */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 5000; }
-        .pay-box { background: #111; padding: 25px; border-radius: 20px; border: 2px solid var(--gold); width: 85%; max-width: 400px; text-align: center; max-height: 90vh; overflow-y: auto; }
-        .pay-option { background: #222; padding: 12px; margin: 8px 0; border-radius: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; border: 1px solid #333; text-decoration: none; color: white; }
-        .pay-option:hover { border-color: var(--gold); }
-        .crypto-info { font-size: 0.7rem; background: #000; padding: 10px; margin-top: 5px; word-break: break-all; border: 1px dashed var(--gold); color: var(--gold); }
+        /* WhatsApp Graphic AI Window */
+        #ai-window { position: fixed; bottom: 90px; right: 20px; width: 320px; height: 450px; background: #0b141a; border-radius: 15px; display: none; flex-direction: column; z-index: 5000; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.5); border: 1px solid #222; }
+        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 12px; font-weight: bold; }
+        .ai-header img { width: 35px; border-radius: 50%; }
+        .ai-body { flex: 1; padding: 15px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
+        .msg { max-width: 80%; padding: 10px; border-radius: 10px; margin-bottom: 8px; font-size: 0.9rem; line-height: 1.4; }
+        .msg-ai { background: #202c33; align-self: flex-start; border-bottom-left-radius: 0; }
+        .msg-user { background: #005c4b; align-self: flex-end; border-bottom-right-radius: 0; }
+        .ai-footer { background: #202c33; padding: 10px; display: flex; align-items: center; gap: 8px; }
+        .ai-footer input { flex: 1; background: #2a3942; border: none; padding: 10px 15px; color: white; border-radius: 20px; outline: none; }
 
-        /* Floating Triple Buttons */
-        .social-btns { position: fixed; bottom: 20px; right: 20px; display: flex; flex-direction: column; gap: 12px; z-index: 3000; }
-        .s-icon { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.5); border: 2px solid white; }
+        /* Floating WhatsApp Button */
+        #wa-trigger { position: fixed; bottom: 20px; right: 20px; background: var(--wa-green); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4000; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+
+        /* Payment Modal */
+        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 6000; }
+        .pay-box { background: #111; padding: 25px; border-radius: 20px; border: 2px solid var(--gold); width: 85%; max-width: 380px; text-align: center; }
+        .pay-opt { background: #222; padding: 15px; margin: 10px 0; border-radius: 12px; display: flex; justify-content: space-between; cursor: pointer; text-decoration: none; color: white; border: 1px solid #333; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="logo-box">
-            <div class="logo-main">SQL PREMIUM HUB</div>
-            <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
-        </div>
-    </div>
-
-    <div id="sideNav" class="side-nav">
-        <a href="#" onclick="toggleMenu()">HOME</a>
-        <a href="https://wa.me/919012277862" target="_blank">WHATSAPP: +91 9012277862</a>
-        <a href="https://www.instagram.com/sql_rrr?igsh=djFsdXRrZ25hbzkz" target="_blank">INSTAGRAM</a>
-        <a href="#" onclick="toggleMenu()" style="color:red">CLOSE MENU</a>
+        <div class="logo-main">SQL PREMIUM HUB</div>
     </div>
 
     <div class="container" id="productGrid"></div>
 
-    <div class="social-btns">
-        <a href="https://www.instagram.com/sql_rrr?igsh=djFsdXRrZ25hbzkz" class="s-icon" style="background:var(--insta);"><i class="fab fa-instagram"></i></a>
-        <div onclick="alert('AI Assistant Opening...')" class="s-icon" style="background:#fff; color:#000;"><i class="fas fa-robot"></i></div>
-        <a href="https://wa.me/919012277862" class="s-icon" style="background:var(--wa);"><i class="fab fa-whatsapp"></i></a>
+    <div id="wa-trigger" onclick="toggleAI()">
+        <i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i>
+    </div>
+
+    <div id="ai-window">
+        <div class="ai-header">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712035.png" alt="AI">
+            <span>SQL Assistant (Online)</span>
+        </div>
+        <div class="ai-body" id="chatBody">
+            <div class="msg msg-ai">Namaste Rizwan! SQL AI mein aapka swagat hai. Main aapki kya madad kar sakta hoon?</div>
+        </div>
+        <div class="ai-footer">
+            <input type="text" id="chatInput" placeholder="Message..." onkeypress="if(event.key==='Enter') sendMsg()">
+            <i class="fas fa-paper-plane" onclick="sendMsg()" style="color:#8696a0; cursor:pointer;"></i>
+        </div>
     </div>
 
     <div id="pay-modal">
         <div class="pay-box">
-            <h3 style="color:var(--gold)">CHOOSE PAYMENT METHOD</h3>
-            <p id="selectedPrice" style="color:#00ff88; font-weight:bold;"></p>
-            
-            <a id="upiLink" href="#" class="pay-option"><span><i class="fas fa-mobile-alt"></i> UPI (PhonePe/GPay)</span> <i class="fas fa-chevron-right"></i></a>
-            
-            <hr style="border:0.5px solid #333;">
-            
-            <div class="pay-option" onclick="toggleCrypto('btc')"><span><i class="fab fa-bitcoin"></i> BTC (BEP20)</span> <i class="fas fa-qrcode"></i></div>
-            <div id="btc-info" style="display:none;">
-                <div class="crypto-info">0xea67ed86d2a3f145a37f008c5bc0c523b50a039a</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=0xea67ed86d2a3f145a37f008c5bc0c523b50a039a" width="120">
-            </div>
-
-            <div class="pay-option" onclick="toggleCrypto('usdt')"><span><i class="fas fa-dollar-sign"></i> USDT (BEP20)</span> <i class="fas fa-qrcode"></i></div>
-            <div id="usdt-info" style="display:none;">
-                <div class="crypto-info">0xea67ed86d2a3f145a37f008c5bc0c523b50a039a</div>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=0xea67ed86d2a3f145a37f008c5bc0c523b50a039a" width="120">
-            </div>
-
-            <button onclick="closePay()" style="background:red; color:white; border:none; padding:10px 20px; border-radius:8px; margin-top:15px; cursor:pointer;">CLOSE</button>
+            <h3 style="color:var(--gold)">SECURE CHECKOUT</h3>
+            <p id="pDisplay" style="color:#00ff88; font-weight:bold;"></p>
+            <a id="upiLink" href="#" class="pay-opt"><span><i class="fas fa-wallet"></i> UPI Apps</span> <i class="fas fa-chevron-right"></i></a>
+            <div class="pay-opt" onclick="alert('BTC (BEP20): 0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')"><span><i class="fab fa-bitcoin"></i> BTC</span></div>
+            <div class="pay-opt" onclick="alert('USDT (BEP20): 0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')"><span><i class="fas fa-dollar-sign"></i> USDT</span></div>
+            <button onclick="closePay()" style="background:red; color:white; border:none; padding:10px 20px; border-radius:8px; margin-top:15px;">CANCEL</button>
         </div>
     </div>
 
     <script>
-        function toggleMenu() {
-            const nav = document.getElementById('sideNav');
-            nav.style.right = (nav.style.right === '0px') ? '-280px' : '0px';
+        function toggleAI() {
+            const win = document.getElementById('ai-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function sendMsg() {
+            const inp = document.getElementById('chatInput');
+            const body = document.getElementById('chatBody');
+            if(!inp.value) return;
+            body.innerHTML += `<div class="msg msg-user">${inp.value}</div>`;
+            const val = inp.value; inp.value = '';
+            setTimeout(() => {
+                body.innerHTML += `<div class="msg msg-ai">Processing your request... Hamare cards 100% active aur safe hain.</div>`;
+                body.scrollTop = body.scrollHeight;
+            }, 800);
         }
 
         function openPay(price) {
             document.getElementById('pay-modal').style.display = 'flex';
-            document.getElementById('selectedPrice').innerText = "Total Amount: ₹" + price;
-            // Auto-fill UPI Link
-            const upiId = "rizwanhasan90122778623@ybl";
-            document.getElementById('upiLink').href = `upi://pay?pa=${upiId}&pn=SQL_HUB&am=${price}&cu=INR`;
+            document.getElementById('pDisplay').innerText = "Payable: ₹" + price;
+            document.getElementById('upiLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${price}&cu=INR`;
         }
-
         function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
-        
-        function toggleCrypto(type) {
-            const el = document.getElementById(type + '-info');
-            el.style.display = (el.style.display === 'none') ? 'block' : 'none';
-        }
 
-        const cards = [
-            { n: "Visa Gold", b: "₹12,000", p: "1000", i: "visa" },
-            { n: "Master Elite", b: "₹8,500", p: "650", i: "mastercard" },
-            { n: "Amex Premium", b: "₹5,000", p: "450", i: "amex" },
-            { n: "Visa Classic", b: "₹3,500", p: "300", i: "visa" }
+        const cardTypes = [
+            { n: "Visa Gold", p: "1000", b: "₹12,000", i: "visa" },
+            { n: "Master Elite", p: "650", b: "₹8,500", i: "mastercard" },
+            { n: "Amex Premium", p: "450", b: "₹5,000", i: "amex" },
+            { n: "Visa Classic", p: "300", b: "₹3,500", i: "visa" }
         ];
 
         const grid = document.getElementById('productGrid');
         for(let i=1; i<=32; i++) {
-            let d = cards[i % cards.length];
+            let d = cardTypes[i % cardTypes.length];
             grid.innerHTML += `
                 <div class="card">
-                    <img src="https://img.icons8.com/color/144/${d.i}.png" width="50">
-                    <h3>${d.n} #${i}</h3>
-                    <div style="color:var(--gold); font-size:0.8rem;">Bal: ${d.b}</div>
+                    <img src="https://img.icons8.com/color/144/${d.i}.png">
+                    <div style="font-weight:bold; margin-bottom:5px;">${d.n} #${i}</div>
+                    <div class="info-row">Type: <b>Non VVV</b></div>
+                    <div class="balance">Bal: ${d.b}</div>
                     <span class="price">₹${d.p}</span>
                     <button class="buy-btn" onclick="openPay('${d.p}')">Buy Now</button>
                 </div>`;
