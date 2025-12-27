@@ -7,33 +7,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold: #d4af37; --dark: #050505; --gray: #121212; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 85px; }
         
-        /* Header & Title centered */
-        .header { background: rgba(18, 18, 18, 0.95); padding: 10px 20px; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; box-sizing: border-box; text-align: center; }
-        .logo-box { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
-        .logo { font-weight: bold; color: var(--gold); font-size: 1.2rem; letter-spacing: 1px; margin: 0; }
-        .sub-logo { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
-        .menu-icon { position: absolute; right: 20px; top: 22px; font-size: 1.5rem; color: var(--gold); cursor: pointer; }
+        /* Header & Centered Title */
+        .header { background: rgba(18, 18, 18, 0.95); padding: 12px 20px; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; box-sizing: border-box; text-align: center; backdrop-filter: blur(10px); }
+        .logo-box { width: 100%; }
+        .logo { font-weight: bold; color: var(--gold); font-size: 1.1rem; letter-spacing: 1px; margin: 0; text-transform: uppercase; }
+        .sub-logo { font-size: 0.65rem; color: #aaa; margin-top: 3px; font-weight: bold; }
+        .menu-icon { position: absolute; right: 20px; top: 22px; font-size: 1.4rem; color: var(--gold); cursor: pointer; }
         
         /* Side Menu & Overlay */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1001; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1001; }
         .side-menu { position: fixed; right: -280px; top: 0; width: 280px; height: 100%; background: var(--gray); transition: 0.4s ease; z-index: 1002; padding-top: 80px; border-left: 2px solid var(--gold); }
-        .side-menu a { display: flex; align-items: center; padding: 18px 25px; color: white; text-decoration: none; border-bottom: 1px solid #222; }
-        .side-menu i { margin-right: 15px; width: 25px; color: var(--gold); }
+        .side-menu a { display: flex; align-items: center; padding: 18px 25px; color: white; text-decoration: none; border-bottom: 1px solid #222; font-size: 1rem; }
+        .side-menu i { margin-right: 15px; width: 25px; color: var(--gold); font-size: 1.2rem; }
 
-        /* Product Cards */
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 15px; }
-        .card { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 12px; text-align: center; }
-        .card img { width: 70px; margin-bottom: 10px; }
-        .price { color: #2ecc71; font-weight: bold; display: block; margin: 8px 0; }
-        .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+        /* Product Cards Grid */
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 15px; max-width: 1200px; margin: auto; }
+        .card { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); border: 1px solid #333; border-radius: 12px; padding: 15px; text-align: center; transition: 0.3s; }
+        .card:hover { border-color: var(--gold); transform: translateY(-3px); }
+        .card img { width: 65px; margin-bottom: 10px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); }
+        .card h3 { font-size: 0.95rem; margin: 5px 0; color: #fff; }
+        .card .details { font-size: 0.75rem; color: #aaa; margin: 2px 0; }
+        .card .balance { font-size: 0.8rem; color: var(--gold); font-weight: bold; margin: 5px 0; }
+        .price { color: #2ecc71; font-weight: bold; display: block; margin: 8px 0; font-size: 1.1rem; }
+        .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 0.8rem; }
 
-        /* Popups */
-        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); padding-top: 50px; }
-        .modal-content { background: #151515; margin: auto; padding: 25px; width: 85%; max-width: 400px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); }
-        .pay-option { display: block; background: #222; padding: 15px; margin: 10px 0; border-radius: 10px; text-decoration: none; color: white; border: 1px solid #333; }
-        .qr-img { width: 180px; margin: 15px auto; border-radius: 10px; display: none; border: 2px solid white; }
+        /* Payment Modal */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); padding-top: 50px; }
+        .modal-content { background: #151515; margin: auto; padding: 25px; width: 85%; max-width: 400px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); position: relative; }
+        .pay-option { display: block; background: #222; padding: 15px; margin: 12px 0; border-radius: 12px; text-decoration: none; color: white; border: 1px solid #333; font-weight: bold; }
+        .qr-img { width: 200px; margin: 15px auto; border-radius: 10px; display: none; border: 3px solid white; }
+        .close-btn { color: #777; font-size: 20px; cursor: pointer; margin-top: 15px; background: none; border: none; }
     </style>
 </head>
 <body onclick="closeMenuOutside(event)">
@@ -58,32 +63,44 @@
 
     <div id="payModal" class="modal">
         <div class="modal-content">
-            <h2 id="itemTitle" style="color:var(--gold)"></h2>
-            <p id="itemPrice" style="color:#2ecc71"></p>
-            <a href="#" id="upiLink" class="pay-option" onclick="showQR('upi')">UPI (Automatic)</a>
+            <h2 id="itemTitle" style="color:var(--gold); margin:0;"></h2>
+            <p id="itemPrice" style="color:#2ecc71; font-size:1.3rem; font-weight:bold; margin:10px 0;"></p>
+            <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
+            
+            <a href="#" id="upiLink" class="pay-option" onclick="showQR('upi')">
+                <i class="fas fa-bolt" style="color:#00b894;"></i> UPI (PhonePe / GPay)
+            </a>
             <img src="https://i.ibb.co/LhyM4b8/upi-qr.jpg" id="upiQR" class="qr-img">
-            <div class="pay-option" onclick="showQR('btc')">Crypto (BTC/USDT)</div>
+
+            <div class="pay-option" onclick="showQR('btc')" style="cursor:pointer;">
+                <i class="fab fa-bitcoin" style="color:#f7931a;"></i> Crypto (BTC/USDT)
+            </div>
             <img src="https://i.ibb.co/pW4mB6w/btc-qr.jpg" id="btcQR" class="qr-img">
-            <p id="btcAddr" style="font-size:0.7rem; color:var(--gold); display:none;">0xea67ed86d2a3f145a37f008c5bc0c523b50a039a</p>
-            <button onclick="closeModal()" style="background:none; border:none; color:white; margin-top:10px;">Close</button>
+            <p id="btcAddr" style="font-size:0.65rem; color:var(--gold); display:none; word-break:break-all; background:#000; padding:10px; border-radius:5px;">0xea67ed86d2a3f145a37f008c5bc0c523b50a039a</p>
+            
+            <button class="close-btn" onclick="closeModal()">[ बंद करें ]</button>
         </div>
     </div>
 
     <script>
         const cards = [
-            { name: "Visa Debit", price: "200", img: "https://img.icons8.com/color/144/visa.png" },
-            { name: "MasterCard", price: "450", img: "https://img.icons8.com/color/144/mastercard.png" },
-            { name: "Amex Card", price: "700", img: "https://img.icons8.com/color/144/amex.png" },
-            { name: "FF Diamond", price: "150", img: "https://img.icons8.com/color/144/fire.png" }
+            { name: "Visa Debit", type: "Non VVV", bal: "3000", price: "200", img: "https://img.icons8.com/color/144/visa.png" },
+            { name: "MasterCard", type: "Premium", bal: "5000", price: "450", img: "https://img.icons8.com/color/144/mastercard.png" },
+            { name: "Amex Card", type: "Gold Edition", bal: "8000", price: "700", img: "https://img.icons8.com/color/144/amex.png" },
+            { name: "Visa Credit", type: "Business", bal: "12000", price: "1000", img: "https://img.icons8.com/color/144/visa.png" },
+            { name: "Visa Platinum", type: "High Limit", bal: "15000", price: "1350", img: "https://img.icons8.com/color/144/visa.png" }
         ];
 
         const grid = document.getElementById('productGrid');
-        for(let i=0; i<5; i++) {
+        // Creating 20 cards (4 sets of the list)
+        for(let i=0; i<4; i++) {
             cards.forEach(card => {
                 grid.innerHTML += `
                     <div class="card">
                         <img src="${card.img}">
                         <h3>${card.name}</h3>
+                        <div class="details">${card.type}</div>
+                        <div class="balance">Bal: ₹${card.bal}</div>
                         <span class="price">₹${card.price}</span>
                         <button class="buy-btn" onclick="openModal('${card.name}', ${card.price})">Buy Now</button>
                     </div>
@@ -94,13 +111,9 @@
         function toggleMenu() {
             const menu = document.getElementById('sideMenu');
             const overlay = document.getElementById('overlay');
-            if (menu.style.right === '0px') {
-                menu.style.right = '-280px';
-                overlay.style.display = 'none';
-            } else {
-                menu.style.right = '0px';
-                overlay.style.display = 'block';
-            }
+            const isOpen = menu.style.right === '0px';
+            menu.style.right = isOpen ? '-280px' : '0px';
+            overlay.style.display = isOpen ? 'none' : 'block';
         }
 
         function closeMenuOutside(event) {
@@ -113,9 +126,13 @@
         function openModal(name, price) {
             document.getElementById('payModal').style.display = 'block';
             document.getElementById('itemTitle').innerText = name;
-            document.getElementById('itemPrice').innerText = "Price: ₹" + price;
+            document.getElementById('itemPrice').innerText = "कुल राशि: ₹" + price;
             const upiId = "rizwanhasan90122778623@ybl";
             document.getElementById('upiLink').href = `upi://pay?pa=${upiId}&pn=RizwanStore&am=${price}&cu=INR`;
+            // Reset views
+            document.getElementById('upiQR').style.display = 'none';
+            document.getElementById('btcQR').style.display = 'none';
+            document.getElementById('btcAddr').style.display = 'none';
         }
 
         function showQR(type) {
@@ -127,4 +144,4 @@
         function closeModal() { document.getElementById('payModal').style.display = 'none'; }
     </script>
 </body>
-    </html>
+</html>
