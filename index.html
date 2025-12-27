@@ -3,38 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rizwan WhatsApp AI Store</title>
+    <title>SQL Premium Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #d4af37; --dark: #050505; --gray: #121212; --msg-in: #202c33; --msg-out: #005c4b; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 85px; overflow-x: hidden; }
+        :root { 
+            --gold: #ffcc00; 
+            --dark-bg: #0a0b0d; 
+            --card-bg: #16171a;
+            --msg-out: #00a884;
+            --msg-in: #202c33;
+            --text-main: #ffffff;
+        }
         
-        /* Header & Products Area */
-        .header { background: rgba(18, 18, 18, 0.95); padding: 12px 20px; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; text-align: center; }
-        .logo { font-weight: bold; color: var(--gold); font-size: 1.1rem; text-transform: uppercase; }
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 15px; }
-        .card { background: #1a1a1a; border: 1px solid #333; border-radius: 12px; padding: 15px; text-align: center; }
-        .price { color: #2ecc71; font-weight: bold; font-size: 1.1rem; }
-        .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 6px; font-weight: bold; width: 100%; cursor: pointer; }
+        body { 
+            background: var(--dark-bg); 
+            color: var(--text-main); 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            padding-top: 70px;
+        }
 
-        /* Full Screen WhatsApp Chat UI */
-        #chat-circle { position: fixed; bottom: 20px; right: 20px; background: #25d366; width: 60px; height: 60px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; z-index: 3000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* High-Quality Premium Header */
+        .header { 
+            background: rgba(10, 11, 13, 0.9); 
+            backdrop-filter: blur(10px);
+            padding: 15px; 
+            position: fixed; 
+            top: 0; width: 100%; 
+            border-bottom: 1px solid rgba(255, 204, 0, 0.3); 
+            z-index: 1000; 
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .logo { font-weight: 900; color: var(--gold); font-size: 1.3rem; letter-spacing: 2px; }
+
+        /* Enhanced Card Graphics */
+        .container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+            gap: 15px; padding: 20px; 
+        }
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            padding: 20px; 
+            text-align: center; 
+            border: 1px solid #2d2e32;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .card img { width: 70px; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5)); }
+        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 10px 0; }
+        .buy-btn { 
+            background: linear-gradient(45deg, #ffcc00, #ffaa00); 
+            color: black; border: none; padding: 12px; 
+            border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer;
+        }
+
+        /* SQL AI WhatsApp UI */
+        #chat-circle { 
+            position: fixed; bottom: 25px; right: 25px; 
+            background: #25d366; width: 65px; height: 65px; 
+            border-radius: 50%; display: flex; align-items: center; 
+            justify-content: center; font-size: 32px; z-index: 3000; 
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); 
+        }
         
-        #chat-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; display: none; flex-direction: column; z-index: 4000; }
-        .chat-header { background: #202c33; color: white; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; border-bottom: 1px solid #333; }
-        .chat-header i { cursor: pointer; font-size: 1.2rem; }
-        
-        #chat-content { flex: 1; padding: 20px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); background-attachment: fixed; }
-        
-        .msg { max-width: 80%; padding: 10px 15px; border-radius: 10px; margin-bottom: 10px; font-size: 0.95rem; line-height: 1.4; position: relative; }
+        #chat-box { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: #0b141a; display: none; flex-direction: column; z-index: 4000; 
+        }
+        .chat-header { 
+            background: #202c33; padding: 15px; display: flex; 
+            align-items: center; gap: 12px; font-weight: bold;
+        }
+        .chat-header i { font-size: 1.5rem; cursor: pointer; }
+
+        #chat-content { 
+            flex: 1; padding: 20px; overflow-y: auto; 
+            background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+            background-size: contain;
+            display: flex; flex-direction: column;
+        }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 12px; margin-bottom: 10px; font-size: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
         .msg-ai { background: var(--msg-in); align-self: flex-start; border-top-left-radius: 0; }
-        .msg-user { background: var(--msg-out); align-self: flex-end; border-top-right-radius: 0; margin-left: auto; text-align: left; }
+        .msg-user { background: var(--msg-out); align-self: flex-end; border-top-right-radius: 0; }
 
-        .chat-input-area { background: #202c33; padding: 10px 15px; display: flex; align-items: center; gap: 10px; }
-        .chat-input-area input { flex: 1; background: #2a3942; border: none; padding: 12px 15px; color: white; border-radius: 25px; outline: none; font-size: 1rem; }
-        .chat-input-area button { background: #00a884; border: none; width: 45px; height: 45px; border-radius: 50%; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .chat-input-area { background: #202c33; padding: 12px; display: flex; align-items: center; gap: 10px; }
+        .chat-input-area input { 
+            flex: 1; background: #2a3942; border: none; padding: 14px; 
+            color: white; border-radius: 30px; outline: none; font-size: 1rem;
+        }
+        .chat-send-btn { 
+            background: #00a884; border: none; width: 50px; height: 50px; 
+            border-radius: 50%; color: white; cursor: pointer; font-size: 1.2rem;
+        }
     </style>
 </head>
+<body>
+
+    <div class="header">
+        <div class="logo">SQL PREMIUM HUB</div>
+    </div>
+
+    <div class="container" id="productGrid"></div>
+
+    <div id="chat-circle" onclick="toggleChat()"><i class="fab fa-whatsapp"></i></div></head>
 <body>
 
     <div class="header">
