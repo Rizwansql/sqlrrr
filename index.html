@@ -27,20 +27,21 @@
         .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 10px 0; display: block; }
         .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
 
-        /* AI Chat Window (Mobile Adjusted) */
-        #ai-window { position: fixed; top: 5%; left: 5%; width: 90%; height: 85%; background: #0b141a; z-index: 5000; display: none; flex-direction: column; border-radius: 20px; overflow: hidden; border: 1px solid #333; }
-        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; justify-content: space-between; font-weight: bold; }
+        /* FULL SCREEN AI WINDOW */
+        #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; z-index: 5000; display: none; flex-direction: column; }
+        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
         .ai-body { flex: 1; padding: 15px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); }
-        .ai-footer { background: #202c33; padding: 10px; display: flex; gap: 8px; }
-        .ai-footer input { flex: 1; border-radius: 20px; border: none; padding: 10px; outline: none; }
+        .ai-footer { background: #202c33; padding: 15px; display: flex; gap: 10px; align-items: center; }
+        .ai-footer input { flex: 1; border-radius: 25px; border: none; padding: 12px 18px; outline: none; background: #2a3942; color: white; }
 
         /* Floating WA Button */
-        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; }
+        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; border: 2px solid white; }
 
-        /* Payment Modal */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 6000; display: none; justify-content: center; align-items: center; }
-        .pay-box { background: #111; padding: 20px; border: 2px solid var(--gold); border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
-        .pay-opt { background: #222; margin: 10px 0; padding: 15px; border-radius: 10px; display: block; text-decoration: none; color: white; font-weight: bold; }
+        /* Payment Modal with Icons */
+        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 6000; display: none; justify-content: center; align-items: center; }
+        .pay-box { background: #111; padding: 25px; border: 2px solid var(--gold); border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
+        .pay-opt { background: #222; margin: 12px 0; padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; font-weight: bold; border: 1px solid #333; }
+        .pay-opt img { width: 30px; }
     </style>
 </head>
 <body>
@@ -54,31 +55,54 @@
     <div class="wa-btn" onclick="toggleAI()"><i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i></div>
 
     <div id="ai-window">
-        <div class="ai-header"><span>SQL AI Support</span> <i class="fas fa-times" onclick="toggleAI()" style="cursor:pointer"></i></div>
-        <div class="ai-body" id="chat"><div style="background:#202c33; padding:10px; border-radius:10px; max-width:80%;">Namaste! Main Rizwan ka AI assistant hoon. Main aapki kaise madad kar sakta hoon?</div></div>
-        <div class="ai-footer"><input type="text" placeholder="Type here..."><button style="background:none; border:none; color:var(--wa);"><i class="fas fa-paper-plane"></i></button></div>
+        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()" style="cursor:pointer; color:var(--gold);"></i> <span>SQL AI Support</span></div>
+        <div class="ai-body" id="chat"><div style="background:#202c33; padding:12px; border-radius:10px; max-width:85%;">Namaste! Main Rizwan ka AI assistant hoon. Main aapki kaise madad kar sakta hoon?</div></div>
+        <div class="ai-footer">
+            <input type="text" id="ai-input" placeholder="Type a message...">
+            <button onclick="sendMsg()" style="background:none; border:none; color:var(--wa); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
+        </div>
     </div>
 
     <div id="pay-modal">
         <div class="pay-box">
-            <h3 style="color:var(--gold)">PAYMENT DETAILS</h3>
-            <p id="amt" style="color:#00ff88; font-weight:bold; font-size:1.2rem;"></p>
-            <a id="uLink" href="#" class="pay-opt">PAY VIA UPI (AUTO)</a>
-            <div class="pay-opt" onclick="copyAddr('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')">COPY BTC (BEP20)</div>
-            <div class="pay-opt" onclick="copyAddr('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')">COPY USDT (BEP20)</div>
-            <button onclick="closePay()" style="background:red; color:white; border:none; padding:10px; border-radius:5px; margin-top:10px; width:100%;">CLOSE</button>
+            <h3 style="color:var(--gold)">SECURE CHECKOUT</h3>
+            <p id="amt" style="color:#00ff88; font-weight:bold; font-size:1.3rem;"></p>
+            
+            <a id="uLink" href="#" class="pay-opt">
+                <img src="https://img.icons8.com/color/48/upi.png"> <span>UPI (Auto Pay)</span>
+            </a>
+            
+            <div class="pay-opt" onclick="copyAddr('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')">
+                <img src="https://img.icons8.com/color/48/bitcoin.png"> <span>BTC (BEP20)</span>
+            </div>
+            
+            <div class="pay-opt" onclick="copyAddr('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')">
+                <img src="https://img.icons8.com/color/48/tether.png"> <span>USDT (BEP20)</span>
+            </div>
+
+            <button onclick="closePay()" style="background:red; color:white; border:none; padding:12px; border-radius:8px; margin-top:15px; width:100%; font-weight:bold;">CLOSE</button>
         </div>
     </div>
 
     <script>
         function toggleAI() { const w = document.getElementById('ai-window'); w.style.display = (w.style.display === 'flex') ? 'none' : 'flex'; }
+        
+        function sendMsg() {
+            const input = document.getElementById('ai-input');
+            const chat = document.getElementById('chat');
+            if(!input.value) return;
+            chat.innerHTML += `<div style="background:#005c4b; padding:12px; border-radius:10px; margin:10px 0; align-self:flex-end; margin-left:auto; max-width:85%;">${input.value}</div>`;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+        }
+
         function openPay(p) {
             document.getElementById('pay-modal').style.display = 'flex';
-            document.getElementById('amt').innerText = "Price: ₹" + p;
-            document.getElementById('uLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR&tn=SQL_HUB`;
+            document.getElementById('amt').innerText = "Amount: ₹" + p;
+            document.getElementById('uLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR`;
         }
         function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
-        function copyAddr(a) { navigator.clipboard.writeText(a); alert("Address Copied!"); }
+        function copyAddr(a) { navigator.clipboard.writeText(a); alert("Address Copied! Please pay on BEP20 network."); }
 
         const items = [
             { n: "Visa Gold", p: "1000", b: "12,000", i: "visa" },
@@ -88,7 +112,7 @@
         const g = document.getElementById('grid');
         for(let i=1; i<=32; i++) {
             let c = items[i % 3];
-            g.innerHTML += `<div class="card"><img src="https://img.icons8.com/color/144/${c.i}.png"><b>${c.n} #${i}</b><div style="font-size:0.8rem; color:#888;">Non VVV</div><div style="color:var(--gold)">Bal: ₹${c.b}</div><span class="price">₹${c.p}</span><button class="buy" onclick="openPay('${c.p}')">Buy Now</button></div>`;
+            g.innerHTML += `<div class="card"><img src="https://img.icons8.com/color/144/${c.i}.png"><b>${c.n} #${i}</b><div style="font-size:0.8rem; color:#888;">Non VVV Premium</div><div style="color:var(--gold)">Bal: ₹${c.b}</div><span class="price">₹${c.p}</span><button class="buy" onclick="openPay('${c.p}')">Buy Now</button></div>`;
         }
     </script>
 </body>
