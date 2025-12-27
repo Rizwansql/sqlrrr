@@ -3,61 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SQL Premium Hub</title>
+    <title>SQL Premium Hub | Professional Store</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold: #ffcc00; --dark-bg: #050505; --card-bg: #111111; --accent: #25d366; }
-        body { background: var(--dark-bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; }
+        body { background: var(--dark-bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; overflow-x: hidden; }
 
-        /* Premium Header */
-        .header { background: rgba(0,0,0,0.9); padding: 15px; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; text-align: center; box-shadow: 0 4px 15px rgba(255,204,0,0.2); box-sizing: border-box; }
-        .logo { font-weight: 900; color: var(--gold); font-size: 1.4rem; letter-spacing: 2px; }
+        /* Fixed Header with Menu on Right */
+        .header { background: rgba(0,0,0,0.95); padding: 15px 20px; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; }
+        .logo { font-weight: 900; color: var(--gold); font-size: 1.2rem; letter-spacing: 1px; }
+        .menu-icon { color: var(--gold); font-size: 1.5rem; cursor: pointer; }
 
-        /* Card Continuity & Details */
-        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(165px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: auto; }
-        .card { background: var(--card-bg); border-radius: 18px; padding: 20px; text-align: center; border: 1px solid #222; position: relative; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
-        .card:hover { border-color: var(--gold); transform: translateY(-3px); transition: 0.3s; }
-        .card img { width: 75px; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
-        .card h3 { font-size: 1rem; margin: 10px 0 5px; color: #fff; }
-        .card .details { font-size: 0.75rem; color: #aaa; margin-bottom: 5px; }
-        .card .balance { font-size: 0.85rem; color: var(--gold); font-weight: bold; margin-bottom: 10px; }
-        .price { color: #00ff88; font-size: 1.2rem; font-weight: 800; display: block; margin-bottom: 12px; }
-        .buy-btn { background: linear-gradient(45deg, #ffcc00, #ff9900); color: black; border: none; padding: 12px; border-radius: 10px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; }
+        /* Premium Card Grid */
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 15px; padding: 20px; max-width: 1200px; margin: auto; }
+        .card { background: var(--card-bg); border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #222; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .card img { width: 65px; margin-bottom: 10px; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+        .card h3 { font-size: 0.95rem; margin: 5px 0; }
+        .card .details { font-size: 0.7rem; color: #888; margin-bottom: 5px; }
+        .card .balance { font-size: 0.8rem; color: var(--gold); font-weight: bold; margin-bottom: 10px; }
+        .price { color: #00ff88; font-size: 1.1rem; font-weight: bold; margin-bottom: 10px; display: block; }
+        .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 8px; font-weight: bold; width: 100%; cursor: pointer; }
 
-        /* Modal for BTC/UPI Payment */
-        .modal { display: none; position: fixed; z-index: 5000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); padding-top: 50px; }
-        .modal-content { background: #111; margin: auto; padding: 30px; width: 85%; max-width: 400px; border-radius: 25px; text-align: center; border: 1px solid var(--gold); }
-        .pay-option { display: block; background: #222; padding: 15px; margin: 12px 0; border-radius: 12px; color: white; text-decoration: none; font-weight: bold; border: 1px solid #333; cursor: pointer; }
-        .qr-img { width: 230px; height: 230px; margin: 15px auto; border: 5px solid white; border-radius: 12px; display: none; }
+        /* Payment Modal */
+        .modal { display: none; position: fixed; z-index: 5000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); }
+        .modal-content { background: #111; margin: 15% auto; padding: 25px; width: 85%; max-width: 350px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); }
+        .pay-option { display: block; background: #222; padding: 12px; margin: 10px 0; border-radius: 10px; color: white; text-decoration: none; font-weight: bold; border: 1px solid #333; cursor: pointer; }
+        .qr-img { width: 200px; height: 200px; margin: 10px auto; border: 3px solid white; border-radius: 10px; display: none; }
 
-        /* SQL AI Full Screen WhatsApp */
-        #chat-circle { position: fixed; bottom: 25px; right: 25px; background: var(--accent); width: 65px; height: 65px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 32px; z-index: 3000; box-shadow: 0 10px 20px rgba(37,211,102,0.4); border: 2px solid white; }
+        /* WhatsApp AI (Full Screen) */
+        #chat-circle { position: fixed; bottom: 20px; right: 20px; background: var(--accent); width: 60px; height: 60px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 3000; border: 2px solid white; }
         #chat-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; display: none; flex-direction: column; z-index: 4000; }
-        .chat-header { background: #202c33; color: white; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
-        .chat-header i { font-size: 1.5rem; cursor: pointer; }
-        #chat-content { flex: 1; padding: 20px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
-        .msg { max-width: 80%; padding: 12px 16px; border-radius: 12px; margin-bottom: 10px; font-size: 1rem; line-height: 1.4; }
+        .chat-header { background: #202c33; color: white; padding: 15px; display: flex; align-items: center; gap: 12px; }
+        #chat-content { flex: 1; padding: 15px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
+        .msg { max-width: 80%; padding: 10px 14px; border-radius: 10px; margin-bottom: 8px; font-size: 0.9rem; }
         .msg-ai { background: #202c33; align-self: flex-start; border-top-left-radius: 0; }
         .msg-user { background: #005c4b; align-self: flex-end; border-top-right-radius: 0; }
-        .chat-input-area { background: #202c33; padding: 12px; display: flex; align-items: center; gap: 10px; }
-        .chat-input-area input { flex: 1; background: #2a3942; border: none; padding: 15px; color: white; border-radius: 30px; outline: none; font-size: 1rem; }
+        .chat-input-area { background: #202c33; padding: 10px; display: flex; align-items: center; gap: 8px; }
+        .chat-input-area input { flex: 1; background: #2a3942; border: none; padding: 12px; color: white; border-radius: 20px; outline: none; }
     </style>
 </head>
 <body>
 
-    <div class="header"><div class="logo">SQL PREMIUM HUB</div></div>
+    <div class="header">
+        <div class="logo">SQL PREMIUM HUB</div>
+        <div class="menu-icon"><i class="fas fa-bars"></i></div>
+    </div>
 
     <div class="container" id="productGrid"></div>
 
     <div id="payModal" class="modal">
         <div class="modal-content">
-            <h2 id="itemTitle" style="color:var(--gold); margin-top:0;"></h2>
-            <p id="itemPrice" style="color:#00ff88; font-size:1.5rem; font-weight:bold;"></p>
-            <div class="pay-option" onclick="showQR('upi')"><i class="fas fa-mobile-alt"></i> UPI (PhonePe/GPay)</div>
+            <h3 id="itemTitle" style="color:var(--gold)"></h3>
+            <p id="itemPrice" style="color:#00ff88; font-weight:bold;"></p>
+            <div class="pay-option" onclick="showQR('upi')">UPI Payment</div>
             <img src="https://i.ibb.co/LhyM4b8/upi-qr.jpg" id="upiQR" class="qr-img">
-            <div class="pay-option" onclick="showQR('btc')"><i class="fab fa-bitcoin"></i> Crypto (BTC/USDT)</div>
+            <div class="pay-option" onclick="showQR('btc')">BTC Payment</div>
             <img src="https://i.ibb.co/pW4mB6w/btc-qr.jpg" id="btcQR" class="qr-img">
-            <button onclick="closeModal()" style="background:none; border:none; color:#777; margin-top:20px; cursor:pointer; font-weight:bold;">[ BACK TO STORE ]</button>
+            <button onclick="closeModal()" style="background:none; border:none; color:#777; margin-top:15px; cursor:pointer;">[ CLOSE ]</button>
         </div>
     </div>
 
@@ -65,16 +68,16 @@
 
     <div id="chat-box">
         <div class="chat-header">
-            <i class="fas fa-arrow-left" onclick="toggleChat()"></i>
-            <img src="https://img.icons8.com/color/48/bot.png" width="38">
+            <i class="fas fa-arrow-left" onclick="toggleChat()" style="cursor:pointer;"></i>
+            <img src="https://img.icons8.com/color/48/bot.png" width="35">
             <div>SQL Ai Assistant<br><small style="color:#25d366; font-weight:normal;">Online</small></div>
         </div>
         <div id="chat-content">
-            <div class="msg msg-ai">नमस्ते Rizwan! SQL AI यहाँ है। मैं आपकी क्या सेवा कर सकता हूँ?</div>
+            <div class="msg msg-ai">नमस्ते Rizwan! SQL AI सक्रिय है। मैं क्या मदद कर सकता हूँ?</div>
         </div>
         <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="Message..." onkeypress="if(event.key==='Enter') sendMessage()">
-            <button onclick="sendMessage()" style="background:#00a884; border:none; width:50px; height:50px; border-radius:50%; color:white; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+            <input type="text" id="userInput" placeholder="Type a message..." onkeypress="if(event.key==='Enter') sendMessage()">
+            <button onclick="sendMessage()" style="background:#00a884; border:none; width:45px; height:45px; border-radius:50%; color:white; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
@@ -88,19 +91,37 @@
 
         const grid = document.getElementById('productGrid');
         cards.forEach(card => {
-            grid.innerHTML += `
-                <div class="card">
-                    <img src="${card.img}">
-                    <h3>${card.name}</h3>
-                    <div class="details">${card.type}</div>
-                    <div class="balance">Balance: ${card.bal}</div>
-                    <span class="price">₹${card.price}</span>
-                    <button class="buy-btn" onclick="openModal('${card.name}', ${card.price})">Buy Now</button>
-                </div>`;
+            grid.innerHTML += `<div class="card"><img src="${card.img}"><h3>${card.name}</h3><div class="details">${card.type}</div><div class="balance">Bal: ${card.bal}</div><span class="price">₹${card.price}</span><button class="buy-btn" onclick="openModal('${card.name}', ${card.price})">Buy Now</button></div>`;
         });
 
-        function openModal(n, p) {
-            document.getElementById('payModal').style.display = 'block';
+        function openModal(n, p) { document.getElementById('payModal').style.display='block'; document.getElementById('itemTitle').innerText=n; document.getElementById('itemPrice').innerText="Price: ₹"+p; document.getElementById('upiQR').style.display='none'; document.getElementById('btcQR').style.display='none'; }
+        function showQR(t) { document.getElementById('upiQR').style.display=(t==='upi')?'block':'none'; document.getElementById('btcQR').style.display=(t==='btc')?'block':'none'; }
+        function closeModal() { document.getElementById('payModal').style.display='none'; }
+        function toggleChat() { const box=document.getElementById('chat-box'); box.style.display=(box.style.display==='flex')?'none':'flex'; }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const chat = document.getElementById('chat-content');
+            if(!input.value) return;
+            chat.innerHTML += `<div class="msg msg-user">${input.value}</div>`;
+            const userTxt = input.value;
+            input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBflTFlohM4VVVMHqQF6iGvVhKV2DEuLyM`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `You are SQL AI Assistant. Owner is Rizwan. Answer in Hindi. User: ${userTxt}` }] }] })
+                });
+                const data = await res.json();
+                chat.innerHTML += `<div class="msg msg-ai">${data.candidates[0].content.parts[0].text}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            } catch(e) { chat.innerHTML += `<div class="msg msg-ai">Server Busy.</div>`; }
+        }
+    </script>
+</body>
+</html>
             document.getElementById('itemTitle').innerText = n;
             document.getElementById('itemPrice').innerText = "Amount: ₹" + p;
             document.getElementById('upiQR').style.display = 'none';
