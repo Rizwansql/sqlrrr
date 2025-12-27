@@ -1,71 +1,68 @@
 <!DOCTYPE html>
-<html lang="hillo">
+<html lang="hi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SQL PREMIUM HUB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; --red: #ff3b3b; --blue: #3b82f6; }
+        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; --red: #ff3b3b; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background: #000; color: white; font-family: sans-serif; margin: 0; padding-top: 100px; height: 100dvh; overflow: hidden; }
 
-        /* Navigation */
-        .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; overflow: hidden; text-align: center; font-size: 12px; }
-        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
-        .logo { font-size: 1.2rem; font-weight: 900; color: var(--gold); }
+        /* Top Line & Header */
+        .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; text-align: center; font-size: 11px; }
+        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 15px; }
+        .logo { font-size: 1.3rem; font-weight: 900; color: var(--gold); }
 
-        /* 3-Line Menu Styles */
-        .menu-icon { font-size: 1.5rem; color: var(--gold); cursor: pointer; }
-        .side-menu { position: fixed; top: 0; right: -250px; width: 250px; height: 100%; background: #111; z-index: 4000; transition: 0.3s; padding-top: 60px; border-left: 2px solid var(--gold); }
-        .side-menu.active { right: 0; }
-        .menu-item { padding: 15px 25px; border-bottom: 1px solid #222; display: block; color: white; text-decoration: none; font-weight: bold; }
+        /* 3-Line Menu */
+        .menu-btn { color: var(--gold); font-size: 1.5rem; cursor: pointer; }
+        #side-menu { position: fixed; top: 0; right: -260px; width: 250px; height: 100%; background: #111; z-index: 4000; transition: 0.3s; padding-top: 50px; border-left: 2px solid var(--gold); }
+        .menu-item { padding: 15px 20px; border-bottom: 1px solid #222; display: block; color: white; text-decoration: none; font-weight: bold; }
         .menu-item i { margin-right: 10px; color: var(--gold); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 3500; display: none; }
 
-        /* Grid - Cards */
-        .container { padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding-bottom: 120px; height: calc(100vh - 90px); overflow-y: auto; }
-        .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; text-align: center; transition: 0.3s; }
-        .card img { height: 45px; margin-bottom: 8px; }
-        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 8px 0; display: block; }
-        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        /* Grid */
+        .container { padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 150px; }
+        .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; text-align: center; }
+        .card img { height: 40px; margin-bottom: 5px; }
+        .price { color: #00ff88; font-size: 1.1rem; font-weight: bold; display: block; margin: 5px 0; }
+        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 8px; border-radius: 6px; font-weight: 900; }
 
-        /* AI Chat Window */
+        /* Chat Window */
         #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100dvh; background: #0b141a; z-index: 5000; display: none; flex-direction: column; }
-        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; border-bottom: 1px solid var(--gold); }
-        .ai-body { flex: 1; padding: 15px; overflow-y: auto; background: #0b141a; display: flex; flex-direction: column; }
-        .ai-footer { background: #202c33; padding: 10px; display: flex; gap: 8px; align-items: center; }
-        .ai-footer input { flex: 1; border-radius: 25px; border: none; padding: 12px; background: #2a3942; color: white; outline: none; }
-        .msg { padding: 10px 14px; border-radius: 12px; margin: 5px 0; max-width: 85%; font-size: 0.95rem; }
-        .msg-ai { background: #202c33; align-self: flex-start; border-left: 3px solid var(--gold); }
+        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
+        .ai-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; }
+        .ai-footer { background: #202c33; padding: 10px; display: flex; gap: 10px; }
+        .ai-footer input { flex: 1; border-radius: 20px; border: none; padding: 10px 15px; background: #2a3942; color: white; outline: none; }
+        .msg { padding: 10px; border-radius: 10px; margin: 5px 0; max-width: 80%; font-size: 0.9rem; }
+        .msg-ai { background: #202c33; align-self: flex-start; }
         .msg-user { background: #005c4b; align-self: flex-end; }
-
-        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; border: 2px solid white; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        
+        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; border: 2px solid white; }
     </style>
 </head>
 <body>
 
-    <div class="top-line">ALL CARD WORKING 💯 PLAY STORE FREE FIRE PUBG PURCHASE</div>
-    
+    <div class="top-line">ALL CARDS WORKING 💯 FREE FIRE & PUBG PURCHASE</div>
     <header>
         <div class="logo">SQL PREMIUM HUB</div>
-        <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </header>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-    <div class="side-menu" id="sideMenu">
-        <a href="#" class="menu-item" onclick="toggleMenu()"><i class="fas fa-home"></i> HOME</a>
-        <a href="#" class="menu-item" onclick="addNewCard()"><i class="fas fa-plus-circle"></i> NEW CARD</a>
-        <a href="https://wa.me/919012277862" class="menu-item"><i class="fab fa-whatsapp"></i> HELP/CONTACT</a>
+    <div id="side-menu">
+        <a href="#" class="menu-item" onclick="toggleMenu()"><i class="fas fa-home"></i> Home</a>
+        <a href="#" class="menu-item" onclick="alert('Coming Soon!')"><i class="fas fa-plus"></i> New Card</a>
+        <a href="https://wa.me/919012277862" class="menu-item"><i class="fab fa-whatsapp"></i> Help: +91 9012277862</a>
     </div>
 
     <div class="container" id="grid"></div>
-    
     <div class="wa-btn" onclick="toggleAI()"><i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i></div>
 
     <div id="ai-window">
-        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()"></i> SQL Smart AI (Gemini v2)</div>
-        <div class="ai-body" id="chat"><div class="msg msg-ai">Namaste Rizwan bhai! Main SQL Hub AI hoon. Kaise madad karun?</div></div>
+        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()"></i> SQL Smart AI (Gemini)</div>
+        <div class="ai-body" id="chat">
+            <div class="msg msg-ai">Namaste Rizwan bhai! Main SQL Hub AI hoon. Kuch puchiye?</div>
+        </div>
         <div class="ai-footer">
             <input type="text" id="ai-input" placeholder="Type & Press Enter..." onkeydown="if(event.key==='Enter') sendMsg()">
             <button onclick="sendMsg()" style="background:none; border:none; color:var(--wa); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
@@ -73,14 +70,11 @@
     </div>
 
     <script>
-        // Aapki New Restricted API Key
-        const API_KEY = "AIzaSyCBXjCWYhoCfjCciMBHnWpOFwy22bbADOI"; 
+        const API_KEY = "AIzaSyCBXjCWYhoCfjCciMBHnWpOFwy22bbADOI"; // Your Restricted Key
 
         function toggleMenu() {
-            const m = document.getElementById('sideMenu');
-            const o = document.getElementById('overlay');
-            m.classList.toggle('active');
-            o.style.display = (o.style.display === 'block') ? 'none' : 'block';
+            const m = document.getElementById('side-menu');
+            m.style.right = (m.style.right === '0px') ? '-260px' : '0px';
         }
 
         function toggleAI() {
@@ -98,42 +92,27 @@
             input.value = '';
             chat.scrollTop = chat.scrollHeight;
 
-            const thinking = document.createElement("div");
-            thinking.className = "msg msg-ai";
-            thinking.innerText = "...";
-            chat.appendChild(thinking);
-
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `System: You are an expert for SQL PREMIUM HUB. Owner: Rizwan (Ethical Hacker). User: ${text}` }] }]
-                    })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: `User: ${text}` }] }] })
                 });
                 const data = await response.json();
-                chat.removeChild(thinking);
                 const aiReply = data.candidates[0].content.parts[0].text;
                 chat.innerHTML += `<div class="msg msg-ai">${aiReply}</div>`;
             } catch (e) {
-                chat.removeChild(thinking);
-                chat.innerHTML += `<div class="msg msg-ai">Bhai, API key check karein ya network issue hai.</div>`;
+                chat.innerHTML += `<div class="msg msg-ai">Network Error or API Issue!</div>`;
             }
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function addNewCard() { alert("Naya card jald hi list mein add hoga!"); toggleMenu(); }
-
-        const items = [
-            { n: "Visa Gold", p: "1000", b: "12,000", i: "https://img.icons8.com/color/96/visa.png" },
-            { n: "Master Elite", p: "650", b: "8,500", i: "https://img.icons8.com/color/96/mastercard.png" },
-            { n: "Amex Premium", p: "450", b: "5,000", i: "https://img.icons8.com/color/96/amex.png" }
-        ];
+        const items = [{n:"Visa",p:"1000",i:"https://img.icons8.com/color/96/visa.png"},{n:"Master",p:"650",i:"https://img.icons8.com/color/96/mastercard.png"},{n:"Amex",p:"450",i:"https://img.icons8.com/color/96/amex.png"}];
         const g = document.getElementById('grid');
         for(let i=1; i<=32; i++) {
             let c = items[i % 3];
-            g.innerHTML += `<div class="card"><img src="${c.i}"><b>${c.n} #${i}</b><div style="color:var(--gold); font-size:12px;">Bal: ₹${c.b}</div><span class="price">₹${c.p}</span><button class="buy">Buy Now</button></div>`;
+            g.innerHTML += `<div class="card"><img src="${c.i}"><b>${c.n} #${i}</b><span class="price">₹${c.p}</span><button class="buy">Buy Now</button></div>`;
         }
     </script>
 </body>
-</html>
+        </html>
