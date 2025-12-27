@@ -3,11 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rizwan Store</title>
+    <title>Rizwan Premium Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --gold: #d4af37; --dark: #050505; --gray: #121212; --blue: #007bff; }
+        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 70px; }
+        
+        /* Header & Menu */
+        .header { background: rgba(18, 18, 18, 0.95); padding: 15px 20px; position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--gold); z-index: 1000; box-sizing: border-box; backdrop-filter: blur(10px); }
+        .logo { font-weight: bold; color: var(--gold); font-size: 1.4rem; letter-spacing: 1px; }
+        .menu-icon { font-size: 1.5rem; color: var(--gold); cursor: pointer; }
+        
+        .side-menu { position: fixed; right: -280px; top: 0; width: 280px; height: 100%; background: var(--gray); transition: 0.4s ease; z-index: 1001; padding-top: 80px; border-left: 2px solid var(--gold); box-shadow: -5px 0 15px rgba(0,0,0,0.5); }
+        .side-menu a { display: flex; align-items: center; padding: 18px 25px; color: white; text-decoration: none; border-bottom: 1px solid #222; font-size: 1.1rem; }
+        .side-menu i { margin-right: 15px; width: 25px; text-align: center; font-size: 1.3rem; }
+        .side-menu .wa { color: #25D366; } .side-menu .ig { color: #E1306C; } .side-menu .st { color: var(--blue); }
+
+        /* Card Grid */
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 15px; max-width: 1200px; margin: auto; }
+        .card { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); border: 1px solid #333; border-radius: 12px; padding: 12px; text-align: center; transition: 0.3s; position: relative; overflow: hidden; }
+        .card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2); }
+        .card img { width: 80px; margin-bottom: 10px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.2)); }
+        .card h3 { font-size: 1rem; margin: 8px 0; color: #fff; }
+        .card p { font-size: 0.75rem; margin: 3px 0; color: #aaa; }
+        .price { color: #2ecc71; font-weight: bold; display: block; margin: 8px 0; font-size: 1.1rem; }
+        .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 6px; font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 0.8rem; }
+
+        /* Modern Popup */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); overflow-y: auto; }
+        .modal-content { background: #151515; margin: 10% auto; padding: 25px; width: 85%; max-width: 450px; border-radius: 20px; text-align: center; border: 1px solid var(--gold); position: relative; }
+        .pay-option { display: block; background: #222; padding: 15px; margin: 12px 0; border-radius: 12px; text-decoration: none; color: white; border: 1px solid #333; transition: 0.3s; }
+        .pay-option:hover { background: #282828; border-color: var(--gold); }
+        .qr-img { width: 180px; height: 180px; margin: 15px auto; border: 5px solid white; border-radius: 10px; display: none; }
+        .btc-addr { font-size: 0.7rem; color: var(--gold); word-break: break-all; margin: 10px 0; padding: 10px; background: #000; border-radius: 5px; display: none; }
+        .close-btn { position: absolute; top: 15px; right: 15px; color: #666; font-size: 1.5rem; cursor: pointer; }
+    </style>
 </head>
-<body style="text-align: center; font-family: sans-serif; padding: 50px;">
-    <h1>Rizwan का ऑनलाइन स्टोर</h1>
-    <p>मेरे प्रोडक्ट्स और सर्विस के लिए नीचे बटन पर क्लिक करें।</p>
-    <a href="https://wa.me/919012277862" style="background: #25D366; color: white; padding: 15px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; margin-top: 20px;">WhatsApp पर ऑर्डर दें</a>
+<body>
+
+    <div class="header">
+        <div class="logo">RIZWAN PREMIUM</div>
+        <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+    </div>
+
+    <div class="side-menu" id="sideMenu">
+        <a href="https://wa.me/919012277862" class="wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+        <a href="https://www.instagram.com/sql_rrr?igsh=djFsdXRrZ25hbzkz" class="ig"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://wa.me/96594091673" class="st"><i class="fas fa-headset"></i> Support Team</a>
+    </div>
+
+    <div class="container" id="productGrid"></div>
+
+    <div id="payModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="itemTitle" style="color:var(--gold); margin-bottom:5px;"></h2>
+            <p id="itemPrice" style="color:#2ecc71; font-weight:bold; font-size:1.2rem;"></p>
+            
+            <hr style="border:0; border-top:1px solid #333; margin:20px 0;">
+
+            <a href="#" id="upiLink" class="pay-option" onclick="showQR('upi')">
+                <i class="fas fa-mobile-alt" style="color:#00b894; margin-right:10px;"></i> UPI (PhonePe / GPay)
+            </a>
+            <img src="https://i.ibb.co/LhyM4b8/upi-qr.jpg" id="upiQR" class="qr-img"> <div class="pay-option" style="cursor:pointer;" onclick="showQR('btc')">
+                <i class="fab fa-bitcoin" style="color:#f7931a; margin-right:10px;"></i> BTC / USDT (Crypto)
+            </div>
+            <img src="https://i.ibb.co/pW4mB6w/btc-qr.jpg" id="btcQR" class="qr-img"> <div id="btcText" class="btc-addr">0xea67ed86d2a3f145a37f008c5bc0c523b50a039a</div>
+
+            <p style="font-size:0.8rem; color:#777; margin-top:15px;">पेमेंट के बाद स्क्रीनशॉट WhatsApp पर भेजें।</p>
+        </div>
+    </div>
+
+    <script>
+        const cards = [
+            { name: "Visa Debit", type: "Non VVV", balance: "3000", price: "200", img: "https://img.icons8.com/color/144/visa.png" },
+            { name: "MasterCard", type: "Premium", balance: "5000", price: "450", img: "https://img.icons8.com/color/144/mastercard.png" },
+            { name: "Amex Card", type: "Gold", balance: "8000", price: "700", img: "https://img.icons8.com/color/144/amex.png" },
+            { name: "Visa Credit", type: "Business", balance: "12000", price: "1000", img: "https://img.icons8.com/color/144/visa.png" },
+            { name: "Visa Platinum", type: "High Bal", balance: "15000", price: "1350", img: "https://img.icons8.com/color/144/visa.png" }
+        ];
+
+        const grid = document.getElementById('productGrid');
+        for(let i=0; i<4; i++) { // Creating 20 cards total
+            cards.forEach(card => {
+                grid.innerHTML += `
+                    <div class="card">
+                        <img src="${card.img}">
+                        <h3>${card.name}</h3>
+                        <p>${card.type}</p>
+                        <p>Balance: ₹${card.balance}</p>
+                        <span class="price">₹${card.price}</span>
+                        <button class="buy-btn" onclick="openModal('${card.name}', ${card.price})">Buy Now</button>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('sideMenu');
+            menu.style.right = menu.style.right === '0px' ? '-280px' : '0px';
+        }
+
+        function openModal(name, price) {
+            document.getElementById('payModal').style.display = 'block';
+            document.getElementById('itemTitle').innerText = name;
+            document.getElementById('itemPrice').innerText = "₹" + price;
+            
+            // Auto-redirect UPI Link
+            const upiId = "rizwanhasan90122778623@ybl";
+            document.getElementById('upiLink').href = `upi://pay?pa=${upiId}&pn=RizwanStore&am=${price}&cu=INR`;
+            
+            // Reset views
+            document.getElementById('upiQR').style.display = 'none';
+            document.getElementById('btcQR').style.display = 'none';
+            document.getElementById('btcText').style.display = 'none';
+        }
+
+        function showQR(type) {
+            if(type === 'upi') {
+                document.getElementById('upiQR').style.display = 'block';
+                document.getElementById('btcQR').style.display = 'none';
+                document.getElementById('btcText').style.display = 'none';
+            } else {
+                document.getElementById('btcQR').style.display = 'block';
+                document.getElementById('btcText').style.display = 'block';
+                document.getElementById('upiQR').style.display = 'none';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('payModal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>
