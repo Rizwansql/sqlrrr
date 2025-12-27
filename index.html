@@ -3,70 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SQL PREMIUM TOPAP HUB</title>
+    <title>SQL PREMIUM HUB</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; }
+        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; --red: #ff3b3b; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: #000; color: white; font-family: sans-serif; margin: 0; padding-top: 100px; height: 100vh; overflow-x: hidden; }
+        body { background: #000; color: white; font-family: sans-serif; margin: 0; padding-top: 100px; height: 100vh; overflow: hidden; }
 
-        /* Top Bar */
-        .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; overflow: hidden; }
-        .m-text { display: inline-block; white-space: nowrap; animation: move 15s linear infinite; }
-        @keyframes move { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
-
-        /* Header */
+        /* Top Bar & Header */
+        .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; overflow: hidden; text-align: center; }
         header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 60px; display: flex; align-items: center; justify-content: center; }
         .logo { font-size: 1.4rem; font-weight: 900; color: var(--gold); }
-        .menu-btn { position: absolute; right: 20px; color: var(--gold); font-size: 1.5rem; }
 
-        /* Card Layout Fixed */
-        .container { padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        /* Cards Container */
+        .container { padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; height: calc(100vh - 110px); overflow-y: auto; }
         .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .card img { height: 35px; margin-bottom: 8px; object-fit: contain; }
-        .card b { font-size: 0.9rem; margin-bottom: 4px; }
-        .bal { color: var(--gold); font-size: 0.8rem; }
-        .price { color: #00ff88; font-size: 1.1rem; font-weight: bold; margin: 8px 0; }
-        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 8px; border-radius: 6px; font-weight: 900; cursor: pointer; }
+        .card img { height: 40px; margin-bottom: 8px; }
+        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 8px 0; }
+        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
 
-        /* FULL SCREEN AI - Stable Layout */
+        /* Full Screen AI Window */
         #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; z-index: 5000; display: none; flex-direction: column; }
-        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; flex-shrink: 0; }
+        .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; }
         .ai-body { flex: 1; padding: 15px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
-        .ai-footer { background: #202c33; padding: 10px; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
-        .ai-footer input { flex: 1; border-radius: 20px; border: none; padding: 12px 18px; outline: none; background: #2a3942; color: white; font-size: 16px; }
+        .ai-footer { background: #202c33; padding: 10px; display: flex; gap: 8px; align-items: center; }
+        .ai-footer input { flex: 1; border-radius: 25px; border: none; padding: 12px; background: #2a3942; color: white; font-size: 16px; outline: none; }
+        .msg { padding: 10px 14px; border-radius: 12px; margin: 5px 0; max-width: 80%; font-size: 0.9rem; }
+        .msg-ai { background: #202c33; align-self: flex-start; }
+        .msg-user { background: #005c4b; align-self: flex-end; }
 
-        .msg { padding: 10px 14px; border-radius: 12px; margin: 5px 0; max-width: 80%; font-size: 0.95rem; line-height: 1.4; position: relative; }
-        .msg-ai { background: #202c33; align-self: flex-start; color: white; }
-        .msg-user { background: #005c4b; align-self: flex-end; color: white; }
+        /* Payment Modal */
+        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 6000; display: none; justify-content: center; align-items: center; }
+        .pay-box { background: #111; padding: 20px; border: 2px solid var(--gold); border-radius: 20px; width: 92%; max-width: 400px; text-align: center; }
+        .pay-opt { background: #222; margin: 10px 0; padding: 12px; border-radius: 10px; display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; font-weight: bold; border: 1px solid #333; }
+        .pay-opt img { width: 28px; height: 28px; }
 
-        /* Floating Button */
-        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; cursor: pointer; border: 2px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-
-        /* Payment Modal with UPI Logo Icon */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 6000; display: none; justify-content: center; align-items: center; }
-        .pay-box { background: #111; padding: 25px; border: 2px solid var(--gold); border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
-        .pay-opt { background: #222; margin: 12px 0; padding: 15px; border-radius: 12px; display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; font-weight: bold; border: 1px solid #333; }
-        .pay-opt img { width: 30px; height: 30px; object-fit: contain; }
+        /* Verification System */
+        .verify-section { margin-top: 15px; padding-top: 15px; border-top: 1px dashed #444; }
+        .verify-input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; background: #000; color: #00ff88; text-align: center; margin-bottom: 10px; outline: none; }
+        .verify-btn { background: #00ff88; color: black; border: none; padding: 10px; width: 100%; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        
+        .wa-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; border: 2px solid white; }
     </style>
 </head>
 <body>
 
-    <div class="top-line"><div class="m-text">all card warking 💯 play stor free fire pupg mor in game Purchase &nbsp;&nbsp;&nbsp; 💯 SQL PREMIUM HUB 💯</div></div>
+    <div class="top-line">all card warking 💯 play stor free fire pupg mor in game Purchase</div>
 
-    <header><div class="logo">SQL PREMIUM HUB</div><div class="menu-btn" onclick="openMenu()"><i class="fas fa-bars"></i></div></header>
+    <header><div class="logo">SQL PREMIUM HUB</div></header>
 
     <div class="container" id="grid"></div>
 
     <div class="wa-btn" onclick="toggleAI()"><i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i></div>
 
     <div id="ai-window">
-        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()" style="cursor:pointer; color:var(--gold);"></i> <span>SQL AI Support</span></div>
+        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()" style="color:var(--gold)"></i> <span>SQL AI Smart Support</span></div>
         <div class="ai-body" id="chat">
-            <div class="msg msg-ai">Namaste! SQL Hub AI mein aapka swagat hai. Main aapki kya madad kar sakta hoon?</div>
+            <div class="msg msg-ai">Namaste! Main SQL AI Assistant hoon. Main aapki kya madad kar sakta hoon?</div>
         </div>
         <div class="ai-footer">
-            <input type="text" id="ai-input" placeholder="Type a message..." onfocus="adjustView()">
+            <input type="text" id="ai-input" placeholder="Type a message...">
             <button onclick="sendMsg()" style="background:none; border:none; color:var(--wa); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
@@ -74,53 +70,65 @@
     <div id="pay-modal">
         <div class="pay-box">
             <h3 style="color:var(--gold)">SECURE CHECKOUT</h3>
-            <p id="amt" style="color:#00ff88; font-weight:bold; font-size:1.3rem;"></p>
+            <p id="amt" style="color:#00ff88; font-weight:bold; font-size:1.2rem;"></p>
             
             <a id="uLink" href="#" class="pay-opt">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfI_Ew7E3rXw3-xXhS_O_L9Gk1Z3A1S6T7Yg&s" alt="UPI"> <span>UPI (Auto Pay)</span>
+                <img src="https://img.icons8.com/color/48/phone-pe.png"> <span>PhonePe / UPI (Auto)</span>
             </a>
-            
             <div class="pay-opt" onclick="copyAddr('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')">
-                <img src="https://img.icons8.com/color/48/bitcoin.png" alt="BTC"> <span>BTC (BEP20)</span>
+                <img src="https://img.icons8.com/color/48/bitcoin.png"> <span>BTC (BEP20)</span>
             </div>
-            
             <div class="pay-opt" onclick="copyAddr('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a')">
-                <img src="https://img.icons8.com/color/48/tether.png" alt="USDT"> <span>USDT (BEP20)</span>
+                <img src="https://img.icons8.com/color/48/tether.png"> <span>USDT (BEP20)</span>
             </div>
 
-            <button onclick="closePay()" style="background:red; color:white; border:none; padding:12px; border-radius:8px; margin-top:15px; width:100%; font-weight:bold;">CLOSE</button>
+            <div class="verify-section">
+                <input type="text" id="txid" class="verify-input" placeholder="Enter Transaction ID">
+                <button class="verify-btn" onclick="verifyTx()">VERIFY PAYMENT</button>
+            </div>
+
+            <button onclick="closePay()" style="background:var(--red); color:white; border:none; padding:10px; border-radius:8px; margin-top:10px; width:100%; font-weight:bold;">CLOSE</button>
         </div>
     </div>
 
     <script>
         function toggleAI() { const w = document.getElementById('ai-window'); w.style.display = (w.style.display === 'flex') ? 'none' : 'flex'; }
         
-        function adjustView() {
-            setTimeout(() => {
-                window.scrollTo(0,0);
-                document.getElementById('ai-window').scrollIntoView(true);
-            }, 300);
-        }
-
         function sendMsg() {
             const input = document.getElementById('ai-input');
             const chat = document.getElementById('chat');
             if(!input.value) return;
 
-            const userText = input.value;
-            chat.innerHTML += `<div class="msg msg-user">${userText}</div>`;
+            const userText = input.value.toLowerCase();
+            chat.innerHTML += `<div class="msg msg-user">${input.value}</div>`;
             input.value = '';
             chat.scrollTop = chat.scrollHeight;
 
-            // AI Response Logic
             setTimeout(() => {
                 let reply = "Processing... Hamare cards 100% active hain. Aap 'Buy Now' par click karke order kar sakte hain.";
-                if(userText.toLowerCase().includes("hello")) reply = "Namaste! Kaise hain aap? SQL Hub Premium Cards ke bare mein janne ke liye puchiye.";
-                if(userText.toLowerCase().includes("price")) reply = "Card prices ₹300 se ₹1000 tak hain. Sabhi Non VVV premium cards hain.";
-                
+                if(userText.includes("price") || userText.includes("rate")) reply = "Cards ₹300 se ₹1000 tak hain. Aap balance ke hisab se chun sakte hain.";
+                else if(userText.includes("hello") || userText.includes("hi")) reply = "Namaste! Main aapki kya madad kar sakta hoon?";
+                else if(userText.includes("work") || userText.includes("chalega")) reply = "Haan ji! Sabhi cards working hain. Play Store aur Free Fire par tested hain.";
+                else if(userText.includes("rizwan")) reply = "Rizwan mere boss hain! Unka kaam ekdum ethical aur clean hai.";
+
                 chat.innerHTML += `<div class="msg msg-ai">${reply}</div>`;
                 chat.scrollTop = chat.scrollHeight;
-            }, 1000);
+            }, 800);
+        }
+
+        function verifyTx() {
+            const id = document.getElementById('txid');
+            const btn = document.querySelector('.verify-btn');
+            if(id.value.length < 5) { alert("Please enter a valid Transaction ID"); return; }
+            
+            btn.innerText = "VERIFYING...";
+            btn.style.background = "#ffcc00";
+            
+            setTimeout(() => {
+                btn.innerText = "SUCCESS! ORDER PLACED ✅";
+                btn.style.background = "#00ff88";
+                alert("Payment Verified! Your card details will be sent shortly.");
+            }, 3000);
         }
 
         function openPay(p) {
@@ -129,7 +137,7 @@
             document.getElementById('uLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR`;
         }
         function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
-        function copyAddr(a) { navigator.clipboard.writeText(a); alert("Address Copied! Network: BEP20"); }
+        function copyAddr(a) { navigator.clipboard.writeText(a); alert("Address Copied! Payment network: BEP20"); }
 
         const items = [
             { n: "Visa Gold", p: "1000", b: "12,000", i: "https://img.icons8.com/color/96/visa.png" },
@@ -139,14 +147,7 @@
         const g = document.getElementById('grid');
         for(let i=1; i<=32; i++) {
             let c = items[i % 3];
-            g.innerHTML += `
-                <div class="card">
-                    <img src="${c.i}">
-                    <b>${c.n} #${i}</b>
-                    <div class="bal">Bal: ₹${c.b}</div>
-                    <span class="price">₹${c.p}</span>
-                    <button class="buy" onclick="openPay('${c.p}')">Buy Now</button>
-                </div>`;
+            g.innerHTML += `<div class="card"><img src="${c.i}"><b>${c.n} #${i}</b><div class="bal">Bal: ₹${c.b}</div><span class="price">₹${c.p}</span><button class="buy" onclick="openPay('${c.p}')">Buy Now</button></div>`;
         }
     </script>
 </body>
