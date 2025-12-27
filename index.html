@@ -7,80 +7,67 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --gold: #ffcc00; --dark-bg: #050505; --card-bg: #121212; --whatsapp: #25d366; }
-        body { background: var(--dark-bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 100px; }
+        body { background: var(--dark-bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 110px; }
 
-        /* 1. Moving Header (शान्ति में चलने वाला टेक्स्ट) */
+        /* 1. Centered Header & Moving Text */
         .header { background: #000; position: fixed; top: 0; width: 100%; border-bottom: 2px solid var(--gold); z-index: 1000; }
-        .logo-box { padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo-main { font-weight: 900; color: var(--gold); font-size: 1.2rem; }
-        
-        .moving-text { background: #111; color: #fff; font-size: 0.75rem; padding: 5px 0; overflow: hidden; white-space: nowrap; border-bottom: 1px solid #333; }
-        .moving-text span { display: inline-block; padding-left: 100%; animation: scroll 15s linear infinite; font-weight: bold; text-transform: uppercase; }
+        .moving-text { background: #111; color: var(--gold); font-size: 0.7rem; padding: 4px 0; overflow: hidden; white-space: nowrap; }
+        .moving-text span { display: inline-block; padding-left: 100%; animation: scroll 15s linear infinite; }
         @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+        
+        .logo-box { padding: 15px; display: flex; align-items: center; position: relative; }
+        .logo-main { width: 100%; text-align: center; font-weight: 900; color: var(--gold); font-size: 1.3rem; letter-spacing: 1px; }
+        .menu-trigger { position: absolute; right: 20px; color: var(--gold); font-size: 1.5rem; cursor: pointer; }
 
-        /* 2. Menu Styling as per Image */
-        .side-nav { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #000; z-index: 2000; transition: 0.4s; border-left: 2px solid var(--gold); padding-top: 20px; }
-        .side-nav a { display: block; padding: 18px 25px; color: white; text-decoration: none; font-weight: bold; border-bottom: 1px solid #222; font-size: 1rem; }
+        /* 2. Menu Buttons Fix */
+        .side-nav { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #000; z-index: 2000; transition: 0.4s; border-left: 2px solid var(--gold); }
+        .side-nav a { display: block; padding: 20px; color: white; text-decoration: none; border-bottom: 1px solid #222; font-weight: bold; }
         .side-nav a:hover { background: #111; color: var(--gold); }
-        .close-btn { color: #ff3333 !important; border-top: 2px solid #333; margin-top: 20px; }
 
-        /* 3. Cards Grid (Cheapest Cards Added) */
+        /* 3. Cards Grid (Minimum Price ₹300) */
         .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; padding: 15px; }
         .card { background: var(--card-bg); border-radius: 15px; padding: 15px; text-align: center; border: 1px solid #222; }
         .card img { width: 60px; margin-bottom: 10px; }
-        .balance { font-size: 0.8rem; color: var(--gold); font-weight: bold; }
-        .price { color: #00ff88; font-size: 1.1rem; font-weight: bold; margin: 8px 0; display: block; }
+        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; margin: 10px 0; display: block; }
         .buy-btn { background: var(--gold); color: black; border: none; padding: 10px; border-radius: 8px; font-weight: 900; width: 100%; cursor: pointer; }
 
-        /* 4. AI WhatsApp System (Functional) */
-        #chat-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; display: none; flex-direction: column; z-index: 4000; }
-        .chat-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 10px; font-weight: bold; }
-        #chat-content { flex: 1; padding: 20px; overflow-y: auto; background: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png'); display: flex; flex-direction: column; }
-        .msg { max-width: 80%; padding: 12px; border-radius: 10px; margin-bottom: 10px; font-size: 0.95rem; }
-        .msg-ai { background: #202c33; align-self: flex-start; }
-        .msg-user { background: #005c4b; align-self: flex-end; }
-        .chat-input-area { background: #202c33; padding: 12px; display: flex; align-items: center; }
-        #userInput { flex: 1; background: #2a3942; border: none; padding: 15px; color: white; border-radius: 30px; outline: none; }
+        /* 4. Payment Modal */
+        #payment-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 5000; }
+        .pay-card { background: #1a1a1a; padding: 25px; border-radius: 20px; text-align: center; width: 85%; border: 1px solid var(--gold); }
+
+        /* AI & WhatsApp Fix */
+        #whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: var(--whatsapp); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 3000; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="moving-text">
-            <span>FREE FIRE | PUBG | AI SUPPORT | HIGH QUALITY CARDS | SAFE & SECURE PAYMENT | 24/7 LIVE SUPPORT</span>
-        </div>
+        <div class="moving-text"><span>FREE FIRE | PUBG | AI SUPPORT | HIGH QUALITY CARDS | SAFE PAYMENT</span></div>
         <div class="logo-box">
             <div class="logo-main">SQL PREMIUM HUB</div>
-            <div onclick="toggleMenu()" style="cursor:pointer; color:var(--gold); font-size:1.5rem;"><i class="fas fa-bars"></i></div>
+            <div class="menu-trigger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
         </div>
     </div>
 
     <div id="sideNav" class="side-nav">
         <a href="#" onclick="toggleMenu()">HOME</a>
-        <a href="#" onclick="toggleMenu()">PREMIUM CARDS</a>
-        <a href="#" onclick="toggleChat()">AI SUPPORT</a>
-        <a href="#" onclick="toggleMenu()">CONTACT US</a>
-        <a href="#" onclick="toggleMenu()" class="close-btn">CLOSE MENU</a>
+        <a href="#productGrid" onclick="toggleMenu()">PREMIUM CARDS</a>
+        <a href="https://wa.me/91XXXXXXXXXX" target="_blank">WHATSAPP SUPPORT</a> <a href="#" onclick="toggleMenu()" style="color:red">CLOSE MENU</a>
     </div>
 
     <div class="container" id="productGrid"></div>
 
-    <div id="chat-circle" onclick="toggleChat()" style="position:fixed; bottom:20px; right:20px; background:var(--whatsapp); width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; z-index:3000; cursor:pointer;">
-        <i class="fab fa-whatsapp" style="color:white; font-size:30px;"></i>
-    </div>
+    <a href="https://wa.me/91XXXXXXXXXX" id="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp" style="color:white; font-size:35px;"></i>
+    </a>
 
-    <div id="chat-box">
-        <div class="chat-header">
-            <i class="fas fa-arrow-left" onclick="toggleChat()" style="cursor:pointer;"></i>
-            <img src="https://img.icons8.com/color/48/bot.png" width="30">
-            <span>SQL Ai Assistant</span>
-        </div>
-        <div id="chat-content">
-            <div class="msg msg-ai">नमस्ते Rizwan! मैं SQL AI हूँ। कीबोर्ड से मैसेज भेजकर आज़माएँ।</div>
-        </div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="मैसेज लिखें..." onkeypress="if(event.key==='Enter') sendMessage()">
-            <button onclick="sendMessage()" style="background:none; border:none; color:var(--whatsapp); font-size:1.5rem; margin-left:10px; cursor:pointer;"><i class="fas fa-paper-plane"></i></button>
+    <div id="payment-modal">
+        <div class="pay-card">
+            <h2 style="color:var(--gold)">PAYMENT DETAILS</h2>
+            <p>Scan QR or Pay via UPI</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=YOURUPI@ID" width="200">
+            <p style="margin:15px 0;">UPI ID: <b>yourname@upi</b></p>
+            <button onclick="closePay()" style="background:red; color:white; border:none; padding:10px 20px; border-radius:5px;">CLOSE</button>
         </div>
     </div>
 
@@ -90,49 +77,21 @@
             nav.style.right = (nav.style.right === '0px') ? '-280px' : '0px';
         }
 
-        // Cheapest Cards Added (Price: ₹50 - ₹150)
         const cards = [
-            { name: "Visa Mini", bal: "₹500", price: "50", img: "https://img.icons8.com/color/144/visa.png" },
-            { name: "Master Lite", bal: "₹1,000", price: "100", img: "https://img.icons8.com/color/144/mastercard.png" },
-            { name: "Amex Blue", bal: "₹1,500", price: "150", img: "https://img.icons8.com/color/144/amex.png" },
-            { name: "Visa Gold", bal: "₹12,000", price: "1000", img: "https://img.icons8.com/color/144/visa.png" }
+            { name: "Visa Silver", bal: "₹5,000", price: "350", img: "https://img.icons8.com/color/144/visa.png" },
+            { name: "Master Elite", bal: "₹8,000", price: "550", img: "https://img.icons8.com/color/144/mastercard.png" },
+            { name: "Amex Gold", bal: "₹10,000", price: "700", img: "https://img.icons8.com/color/144/amex.png" },
+            { name: "Visa Premium", bal: "₹15,000", price: "1200", img: "https://img.icons8.com/color/144/visa.png" }
         ];
 
         const grid = document.getElementById('productGrid');
         for(let i=0; i<20; i++) {
             let c = cards[i % cards.length];
-            grid.innerHTML += `<div class="card"><img src="${c.img}"><h3>${c.name}</h3><div class="balance">Bal: ${c.bal}</div><span class="price">₹${c.price}</span><button class="buy-btn">Buy Now</button></div>`;
+            grid.innerHTML += `<div class="card"><img src="${c.img}"><h3>${c.name}</h3><div class="balance">Bal: ${c.bal}</div><span class="price">₹${c.price}</span><button class="buy-btn" onclick="openPay()">Buy Now</button></div>`;
         }
 
-        function toggleChat() {
-            const box = document.getElementById('chat-box');
-            box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        // AI Message Logic - Direct Keyboard Fix
-        async function sendMessage() {
-            const input = document.getElementById('userInput');
-            const chat = document.getElementById('chat-content');
-            if(!input.value) return;
-
-            const userText = input.value;
-            chat.innerHTML += `<div class="msg msg-user">${userText}</div>`;
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
-
-            try {
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyBflTFlohM4VVVMHqQF6iGvVhKV2DEuLyM`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: `You are SQL AI Assistant. User: ${userText}` }] }] })
-                });
-                const data = await res.json();
-                chat.innerHTML += `<div class="msg msg-ai">${data.candidates[0].content.parts[0].text}</div>`;
-            } catch(e) {
-                chat.innerHTML += `<div class="msg msg-ai">माफ़ी चाहता हूँ, सर्वर अभी थोड़ा व्यस्त है।</div>`;
-            }
-            chat.scrollTop = chat.scrollHeight;
-        }
+        function openPay() { document.getElementById('payment-modal').style.display = 'flex'; }
+        function closePay() { document.getElementById('payment-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
