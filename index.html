@@ -6,7 +6,7 @@
     <title>SQL PREMIUM HUB | RIZWAN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #0b0b0b; --wa: #25d366; --red: #ff4444; --paytm: #00baf2; }
+        :root { --gold: #ffcc00; --dark: #0b0b0b; --wa: #25d366; --red: #ff4444; --paytm: #00baf2; --wa-green: #075e54; --wa-light: #128C7E; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: sans-serif; }
         body { background: #000; color: white; padding-top: 100px; height: 100dvh; overflow: hidden; }
 
@@ -31,15 +31,17 @@
         .price { color: #00ff88; font-size: 1.3rem; font-weight: bold; display: block; margin-bottom: 10px; }
         .buy-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; }
 
-        /* AI Smart Window */
-        #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 5000; display: none; flex-direction: column; }
-        .ai-header { background: #111; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; border-bottom: 1px solid var(--gold); }
-        .ai-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .ai-footer { background: #111; padding: 12px; display: flex; gap: 10px; border-top: 1px solid #222; }
-        .ai-footer input { flex: 1; border-radius: 25px; padding: 14px; background: #222; color: white; border: 1px solid #333; outline: none; }
-        .msg { padding: 12px 16px; border-radius: 15px; max-width: 85%; font-size: 0.95rem; }
-        .msg-ai { background: #222; align-self: flex-start; }
-        .msg-user { background: #005c4b; align-self: flex-end; }
+        /* WhatsApp Style AI Chat Window */
+        #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://i.imgur.com/8X3gQ6P.jpg') repeat; background-size: 400px; z-index: 5000; display: none; flex-direction: column; }
+        .ai-header { background: var(--wa-green); padding: 12px 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; color: white; }
+        .ai-header i { font-size: 1.6rem; cursor: pointer; }
+        .ai-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .ai-footer { background: #111; padding: 10px; display: flex; gap: 10px; align-items: center; }
+        .ai-footer input { flex: 1; border-radius: 25px; padding: 12px 18px; background: white; color: black; border: none; outline: none; font-size: 1rem; }
+        .ai-footer button { background: var(--wa-light); color: white; width: 50px; height: 50px; border-radius: 50%; border: none; font-size: 1.5rem; display: flex; align-items: center; justify-content: center; }
+        .msg { padding: 10px 16px; border-radius: 18px; max-width: 80%; line-height: 1.4; font-size: 0.95rem; position: relative; }
+        .msg-ai { background: #dcf8c6; color: black; align-self: flex-start; border-bottom-left-radius: 5px; }
+        .msg-user { background: #005c4b; color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
 
         /* Payment Modal */
         #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 6000; display: none; justify-content: center; align-items: center; padding: 20px; }
@@ -48,18 +50,18 @@
         .p-btn img { width: 25px; height: 25px; border-radius: 5px; }
         .v-input { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #00ff88; text-align: center; border-radius: 10px; margin: 10px 0; font-weight: bold; }
         .v-btn { background: #00ff88; color: black; border: none; padding: 14px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; }
-        
-        .bot-trigger { position: fixed; bottom: 25px; right: 25px; background: var(--wa); width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4500; border: 3px solid white; }
+
+        .bot-trigger { position: fixed; bottom: 25px; right: 25px; background: var(--wa); width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4500; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 
         /* New Services Page */
         #services-page { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 7000; display: none; flex-direction: column; padding-top: 100px; }
         .services-header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 8000; height: 65px; display: flex; align-items: center; justify-content: center; }
-        .services-back { position: absolute; left: 20px; color: var(--gold); font-size: 1.6rem; cursor: pointer; }
+        .services-back { position: absolute; right: 20px; color: var(--gold); font-size: 1.6rem; cursor: pointer; }
         .services-container { padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; overflow-y: auto; padding-bottom: 120px; }
         .service-card { background: #111; border: 1px solid #222; border-radius: 15px; padding: 20px; text-align: center; }
-        .service-card img { height: 70px; margin-bottom: 15px; border-radius: 12px; }
+        .service-card img { height: 70px; margin-bottom: 15px; border-radius: 12px; object-fit: contain; }
         .service-price { color: #00ff88; font-size: 1.8rem; font-weight: bold; margin: 10px 0; }
-        .coming-soon { color: orange; font-weight: bold; font-size: 1.2rem; }
+        .coming-soon { color: orange; font-weight: bold; font-size: 1.3rem; }
     </style>
 </head>
 <body>
@@ -77,8 +79,7 @@
         <a href="https://t.me/SQL_RRR" class="menu-item" style="color:#0088cc"><i class="fab fa-telegram"></i> Join Telegram</a>
         <a href="https://wa.me/919012277862" class="menu-item" style="color:var(--wa)"><i class="fab fa-whatsapp"></i> Contact Owner</a>
         
-        <!-- Fixed Menu Items -->
-        <div class="menu-item" onclick="translatePage()"><i class="fas fa-language"></i> Translate Page</div>
+        <!-- Translate button removed as requested -->
         <div class="menu-item" onclick="openServices()"><i class="fas fa-concierge-bell"></i> New Services</div>
     </div>
 
@@ -86,14 +87,19 @@
 
     <div class="bot-trigger" onclick="toggleAI()"><i class="fas fa-robot" style="color:white; font-size:32px;"></i></div>
 
+    <!-- WhatsApp Style AI Window -->
     <div id="ai-window">
-        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()"></i> SQL Assistant AI</div>
+        <div class="ai-header">
+            <i class="fas fa-arrow-left" onclick="toggleAI()"></i>
+            SQL Assistant AI
+            <i class="fas fa-phone" style="margin-left:auto;"></i>
+        </div>
         <div class="ai-body" id="chat">
             <div class="msg msg-ai">Hello Sir! How can I help you today with SQL Hub cards?</div>
         </div>
         <div class="ai-footer">
-            <input type="text" id="ai-in" placeholder="Ask about balance..." onkeydown="if(event.key==='Enter') runChat()">
-            <button onclick="runChat()" style="background:none; border:none; color:var(--gold); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
+            <input type="text" id="ai-in" placeholder="Type a message..." onkeydown="if(event.key==='Enter') runChat()">
+            <button onclick="runChat()"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
@@ -119,40 +125,63 @@
     <div id="services-page">
         <div class="top-line">NEW SERVICES | FAST & PREMIUM</div>
         <div class="services-header">
-            <i class="fas fa-arrow-left services-back" onclick="closeServices()"></i>
             <div class="logo">NEW SERVICES</div>
+            <i class="fas fa-arrow-left services-back" onclick="closeServices()"></i>
         </div>
         <div class="services-container">
+            <!-- Active Services -->
             <div class="service-card">
-                <img src="https://img.icons8.com/fluency/96/youtube-premium.png" alt="YouTube Premium">
+                <img src="https://img.icons8.com/color/96/youtube-play.png" alt="YouTube Premium">
                 <b>YouTube Premium</b>
                 <span class="service-price">₹120</span>
                 <button class="buy-btn" onclick="openPayFromServices('120')">Buy Now</button>
             </div>
             <div class="service-card">
-                <img src="https://img.icons8.com/fluency/96/sony.png" alt="SonyLIV">
+                <img src="https://img.icons8.com/color/96/sony.png" alt="SonyLIV">
                 <b>SonyLIV Premium</b>
                 <span class="service-price">₹160</span>
                 <button class="buy-btn" onclick="openPayFromServices('160')">Buy Now</button>
             </div>
+
+            <!-- Coming Soon (8 total) -->
             <div class="service-card">
                 <img src="https://img.icons8.com/color/96/netflix.png" alt="Netflix">
                 <b>Netflix Premium</b>
                 <span class="coming-soon">COMING SOON</span>
             </div>
             <div class="service-card">
-                <img src="https://img.icons8.com/fluency/96/spotify.png" alt="Spotify">
+                <img src="https://img.icons8.com/color/96/spotify.png" alt="Spotify">
                 <b>Spotify Premium</b>
                 <span class="coming-soon">COMING SOON</span>
             </div>
             <div class="service-card">
-                <img src="https://img.icons8.com/fluency/96/amazon-prime.png" alt="Amazon Prime">
-                <b>Amazon Prime</b>
+                <img src="https://img.icons8.com/color/96/amazon-prime-video.png" alt="Amazon Prime">
+                <b>Amazon Prime Video</b>
                 <span class="coming-soon">COMING SOON</span>
             </div>
             <div class="service-card">
-                <img src="https://img.icons8.com/color/96/disney-plus.png" alt="Disney+">
+                <img src="https://img.icons8.com/color/96/disney-plus.png" alt="Disney+ Hotstar">
                 <b>Disney+ Hotstar</b>
+                <span class="coming-soon">COMING SOON</span>
+            </div>
+            <div class="service-card">
+                <img src="https://img.icons8.com/color/96/apple-music.png" alt="Apple Music">
+                <b>Apple Music</b>
+                <span class="coming-soon">COMING SOON</span>
+            </div>
+            <div class="service-card">
+                <img src="https://img.icons8.com/color/96/zee5.png" alt="Zee5">
+                <b>ZEE5 Premium</b>
+                <span class="coming-soon">COMING SOON</span>
+            </div>
+            <div class="service-card">
+                <img src="https://img.icons8.com/color/96/jio-cinema.png" alt="JioCinema">
+                <b>JioCinema Premium</b>
+                <span class="coming-soon">COMING SOON</span>
+            </div>
+            <div class="service-card">
+                <img src="https://img.icons8.com/color/96/altbalaji.png" alt="ALTBalaji">
+                <b>ALTBalaji</b>
                 <span class="coming-soon">COMING SOON</span>
             </div>
         </div>
@@ -179,15 +208,8 @@
             document.getElementById('services-page').style.display = 'none';
         }
 
-        // Fixed Translate - ab page reload nahi hogi, direct Google Translate khulega aur menu close ho jayega
-        function translatePage() {
-            toggleMenu();
-            window.open("https://translate.google.com/translate?sl=auto&tl=en&u=" + encodeURIComponent(window.location.href), "_blank");
-        }
-
-        // New Services se Buy Now → Payment modal khulega
         function openPayFromServices(amt) {
-            closeServices(); // optional: services page band kar do
+            closeServices();
             openPay(amt);
         }
 
@@ -241,7 +263,7 @@
                 const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${KEY}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "You are SQL Assistant. Call user 'Sir'. Talk about Non-Vv cards. Don't mention 'Rizwan' unless asked. Quotes from Osho/Karna. User: " + msg }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "You are SQL Assistant. Call user 'Sir'. Talk about Non-Vv cards and services. Don't mention 'Rizwan' unless asked. User: " + msg }] }] })
                 });
                 const d = await r.json();
                 c.innerHTML += `<div class="msg msg-ai">${d.candidates[0].content.parts[0].text}</div>`;
@@ -269,4 +291,4 @@
         }
     </script>
 </body>
-</html>
+                                                     </html>
