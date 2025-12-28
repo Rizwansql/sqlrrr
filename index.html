@@ -6,89 +6,87 @@
     <title>SQL PREMIUM HUB | RIZWAN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; --red: #ff3b3b; --blue: #0088cc; }
+        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; --red: #ff3b3b; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: sans-serif; }
         body { background: #000; color: white; padding-top: 100px; height: 100dvh; overflow: hidden; }
 
-        /* Navigation & Menu */
+        /* Header */
         .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; text-align: center; font-size: 11px; }
-        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 60px; display: flex; align-items: center; justify-content: center; width: 100%; }
-        .logo { font-size: 1.4rem; font-weight: 900; color: var(--gold); }
-        .menu-btn { position: absolute; right: 20px; color: var(--gold); font-size: 1.6rem; cursor: pointer; }
+        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 65px; display: flex; align-items: center; justify-content: center; }
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--gold); letter-spacing: 1px; }
+        .menu-icon { position: absolute; right: 20px; color: var(--gold); font-size: 1.6rem; cursor: pointer; }
 
+        /* Sidebar Menu */
         #side-menu { position: fixed; top: 0; right: -280px; width: 270px; height: 100%; background: #0a0a0a; z-index: 4000; transition: 0.3s; padding-top: 60px; border-left: 2px solid var(--gold); }
         .menu-item { padding: 18px 25px; border-bottom: 1px solid #1a1a1a; display: block; color: white; text-decoration: none; font-weight: bold; }
 
-        /* Cards Grid with Non-Vv Details */
-        .container { padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 120px; }
-        .card { background: #111; border: 1px solid #333; border-radius: 12px; padding: 12px; text-align: center; border-bottom: 3px solid #222; }
-        .card img { height: 40px; margin-bottom: 8px; }
-        .live-tag { color: #00ff88; font-weight: bold; font-size: 10px; display: block; }
-        .details { font-size: 10px; color: #888; margin: 5px 0; line-height: 1.2; }
-        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; display: block; margin: 5px 0; }
-        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        /* Grid */
+        .container { padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 120px; }
+        .card { background: #111; border: 1px solid #333; border-radius: 15px; padding: 12px; text-align: center; border-bottom: 4px solid #222; }
+        .card img { height: 40px; margin-bottom: 5px; }
+        .live-tag { color: #00ff88; font-weight: bold; font-size: 10px; margin-bottom: 5px; display: block; }
+        
+        /* Balance & Details Fix */
+        .card-bal { color: var(--gold); font-weight: 900; font-size: 14px; margin: 4px 0; display: block; }
+        .card-info { font-size: 10px; color: #aaa; margin-bottom: 8px; line-height: 1.3; }
+        
+        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; display: block; margin-bottom: 10px; }
+        .buy-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
 
         /* AI Window */
         #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0b141a; z-index: 5000; display: none; flex-direction: column; }
         .ai-header { background: #202c33; padding: 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; border-bottom: 1px solid var(--gold); }
         .ai-body { flex: 1; padding: 15px; overflow-y: auto; background: #000; display: flex; flex-direction: column; gap: 10px; }
         .ai-footer { background: #202c33; padding: 10px; display: flex; gap: 8px; }
-        .ai-footer input { flex: 1; border-radius: 25px; border: none; padding: 12px; background: #2a3942; color: white; font-size: 16px; outline: none; }
-        .msg { padding: 10px 14px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; }
-        .msg-ai { background: #202c33; align-self: flex-start; }
-        .msg-user { background: #005c4b; align-self: flex-end; }
+        .ai-footer input { flex: 1; border-radius: 25px; padding: 12px; background: #2a3942; color: white; border: none; outline: none; }
 
-        /* Payment Modal */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 6000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        /* Payment */
+        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.97); z-index: 6000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .pay-box { background: #111; padding: 20px; border: 2px solid var(--gold); border-radius: 20px; width: 100%; max-width: 400px; text-align: center; }
-        .p-btn { background: #222; margin: 8px 0; padding: 12px; border-radius: 10px; display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; font-weight: bold; border: 1px solid #333; cursor: pointer; }
-        .p-btn img { width: 25px; }
-        .v-input { width: 100%; padding: 10px; background: #000; border: 1px solid #555; color: #00ff88; text-align: center; border-radius: 8px; margin: 10px 0; }
+        .p-btn { background: #222; margin: 8px 0; padding: 12px; border-radius: 10px; display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; border: 1px solid #333; font-weight: bold; cursor: pointer; }
+        .v-input { width: 100%; padding: 10px; background: #000; border: 1px solid #444; color: #00ff88; text-align: center; border-radius: 8px; margin: 10px 0; }
         
-        .bot-trigger { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1500; border: 2px solid white; }
+        .bot-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4500; border: 2px solid white; box-shadow: 0 0 15px var(--wa); }
     </style>
 </head>
 <body>
 
-    <div class="top-line">SQL PREMIUM HUB • NON-VV CARDS • 100% WORKING</div>
+    <div class="top-line">SQL HUB OFFICIAL • NON-VV CARDS • PLAYSTORE & IN-GAME</div>
     
     <header>
         <div class="logo">SQL PREMIUM HUB</div>
-        <div class="menu-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
     </header>
 
     <div id="side-menu">
         <i class="fas fa-times" onclick="toggleMenu()" style="position:absolute; top:15px; left:15px; color:var(--red); font-size:1.5rem;"></i>
-        <a href="#" class="menu-item" onclick="location.reload()">Refresh Store</a>
-        <a href="https://t.me/SQL_RRR" class="menu-item" style="color:var(--blue)">Telegram Channel</a>
-        <a href="https://wa.me/919012277862" class="menu-item" style="color:var(--wa)">Contact Rizwan</a>
+        <a href="#" class="menu-item" onclick="location.reload()">Store Refresh</a>
+        <a href="https://t.me/SQL_RRR" class="menu-item" style="color:var(--blue)">Join Telegram</a>
+        <a href="https://wa.me/919012277862" class="menu-item" style="color:var(--wa)">Chat with Rizwan</a>
     </div>
 
     <div class="container" id="grid"></div>
 
-    <div class="bot-trigger" onclick="toggleAI()"><i class="fas fa-robot" style="color:white; font-size:30px;"></i></div>
+    <div class="bot-btn" onclick="toggleAI()"><i class="fas fa-robot" style="color:white; font-size:30px;"></i></div>
 
     <div id="ai-window">
-        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()"></i> SQL Smart Bot</div>
-        <div class="ai-body" id="chat">
-            <div class="msg msg-ai">Salam Rizwan bhai! Main SQL Hub AI hoon. Cards ki details puchiye.</div>
-        </div>
+        <div class="ai-header"><i class="fas fa-arrow-left" onclick="toggleAI()"></i> SQL Smart AI</div>
+        <div class="ai-body" id="chat"><div class="msg">Salam Rizwan bhai! Main SQL Hub AI hoon.</div></div>
         <div class="ai-footer">
-            <input type="text" id="ai-in" placeholder="Ask something..." onkeydown="if(event.key==='Enter') chatAI()">
-            <button onclick="chatAI()" style="background:none; border:none; color:var(--wa); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
+            <input type="text" id="ai-in" placeholder="Ask about Balance..." onkeydown="if(event.key==='Enter') chat()">
+            <button onclick="chat()" style="background:none; border:none; color:var(--wa); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
     <div id="pay-modal">
         <div class="pay-box">
-            <h3 style="color:var(--gold)">PAYMENT SECURE</h3>
-            <p id="p-amt" style="color:#00ff88; font-weight:bold; margin:10px 0;"></p>
-            <a id="uLink" href="#" class="p-btn"><img src="https://img.icons8.com/color/48/phone-pe.png"> UPI / PhonePe</a>
-            <div class="p-btn" onclick="copyA('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a', 'BTC')"><img src="https://img.icons8.com/color/48/bitcoin.png"> BTC (BEP20)</div>
-            <div class="p-btn" onclick="copyA('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a', 'USDT')"><img src="https://img.icons8.com/color/48/tether.png"> USDT (BEP20)</div>
-            <input type="text" id="txid" class="v-input" placeholder="Enter Transaction ID">
+            <h3 style="color:var(--gold)">PAYMENT</h3>
+            <p id="p-amt" style="color:#00ff88; font-weight:900; margin:10px 0;"></p>
+            <a id="uLink" href="#" class="p-btn"><img src="https://img.icons8.com/color/48/phone-pe.png" width="25"> UPI Payment</a>
+            <div class="p-btn" onclick="copyA('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a', 'USDT')"><img src="https://img.icons8.com/color/48/tether.png" width="25"> USDT (BEP20)</div>
+            <input type="text" id="txid" class="v-input" placeholder="Transaction ID">
             <button onclick="verify()" id="v-btn" style="background:#00ff88; border:none; padding:12px; width:100%; border-radius:8px; font-weight:900;">VERIFY</button>
-            <button onclick="document.getElementById('pay-modal').style.display='none'" style="background:none; color:var(--red); border:none; margin-top:10px; font-weight:bold;">CLOSE</button>
+            <button onclick="document.getElementById('pay-modal').style.display='none'" style="color:var(--red); border:none; background:none; margin-top:10px; font-weight:bold;">CLOSE</button>
         </div>
     </div>
 
@@ -99,51 +97,58 @@
             const m = document.getElementById('side-menu');
             m.style.right = (m.style.right === '0px') ? '-280px' : '0px';
         }
-
         function toggleAI() { const w = document.getElementById('ai-window'); w.style.display = (w.style.display==='flex')?'none':'flex'; }
 
-        async function chatAI() {
-            const input = document.getElementById('ai-in');
-            const chat = document.getElementById('chat');
-            if(!input.value) return;
-            chat.innerHTML += `<div class="msg msg-user">${input.value}</div>`;
-            const userTxt = input.value;
-            input.value = '';
-            chat.scrollTop = chat.scrollHeight;
-
+        async function chat() {
+            const i = document.getElementById('ai-in');
+            const c = document.getElementById('chat');
+            if(!i.value) return;
+            const userTxt = i.value;
+            c.innerHTML += `<div style="background:#005c4b; align-self:flex-end; padding:10px; border-radius:10px; margin:5px;">${userTxt}</div>`;
+            i.value = '';
             try {
                 const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ contents: [{ parts: [{ text: "You are SQL AI. Help users with Non-Vv cards for FF/PUBG. Owner Rizwan. Be professional. User: " + userTxt }] }] })
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "Context: You are SQL Hub AI. Owner Rizwan. We sell Non-Vv cards for FF/PUBG. Answer helpfully. User: " + userTxt }] }] })
                 });
                 const d = await res.json();
-                chat.innerHTML += `<div class="msg msg-ai">${d.candidates[0].content.parts[0].text}</div>`;
-            } catch (e) { chat.innerHTML += `<div class="msg msg-ai">Server busy, Rizwan bhai.</div>`; }
-            chat.scrollTop = chat.scrollHeight;
+                c.innerHTML += `<div style="background:#202c33; align-self:flex-start; padding:10px; border-radius:10px; margin:5px;">${d.candidates[0].content.parts[0].text}</div>`;
+            } catch (e) { c.innerHTML += `<div>Server Error...</div>`; }
+            c.scrollTop = c.scrollHeight;
         }
 
         function verify() {
             const b = document.getElementById('v-btn');
-            b.innerText = "CHECKING... ⏳";
+            b.innerText = "VERIFYING... ⏳";
             setTimeout(() => {
-                const r = ["SUCCESS! ✅", "MANUAL CHECK ❌", "PENDING ⏳"];
+                const r = ["SUCCESS! ✅", "MANUAL CHECK ❌", "FAILED ❌"];
                 b.innerText = r[Math.floor(Math.random()*r.length)];
                 b.style.background = b.innerText.includes("SUCCESS") ? "#00ff88" : "orange";
             }, 2500);
         }
 
-        function openPay(p) { document.getElementById('pay-modal').style.display = 'flex'; document.getElementById('p-amt').innerText = "Amt: ₹" + p; document.getElementById('uLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR`; }
-        function copyA(a, t) { navigator.clipboard.writeText(a); alert(t + " Copied!"); }
+        function openPay(p) { document.getElementById('pay-modal').style.display = 'flex'; document.getElementById('p-amt').innerText = "Price: ₹" + p; document.getElementById('uLink').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR`; }
+        function copyA(a, t) { navigator.clipboard.writeText(a); alert(t + " Address Copied!"); }
 
-        const items = [
-            {n:"Visa Non-Vv", p:"1100", d:"BIN: 4859xx | PlayStore OK", i:"https://img.icons8.com/color/96/visa.png"},
-            {n:"Master Non-Vv", p:"850", d:"BIN: 5241xx | FF/PUBG OK", i:"https://img.icons8.com/color/96/mastercard.png"}
+        const cards = [
+            {n:"Visa Non-Vv", p:"1100", b:"₹15,000", d:"BIN: 4859xx | PlayStore OK", i:"https://img.icons8.com/color/96/visa.png"},
+            {n:"Master Non-Vv", p:"850", b:"₹10,500", d:"BIN: 5241xx | FF/PUBG OK", i:"https://img.icons8.com/color/96/mastercard.png"},
+            {n:"Amex Non-Vv", p:"600", b:"₹6,000", d:"BIN: 3714xx | Premium OK", i:"https://img.icons8.com/color/96/amex.png"}
         ];
         const g = document.getElementById('grid');
         for(let i=1; i<=30; i++) {
-            let c = items[i % 2];
-            g.innerHTML += `<div class="card"><img src="${c.i}"><span class="live-tag">Live ✅</span><b>${c.n} #${i}</b><p class="details">${c.d}</p><span class="price">₹${c.p}</span><button class="buy" onclick="openPay('${c.p}')">Buy Now</button></div>`;
+            let c = cards[i % 3];
+            g.innerHTML += `
+            <div class="card">
+                <img src="${c.i}">
+                <span class="live-tag">Live ✅</span>
+                <b>${c.n} #${i}</b>
+                <span class="card-bal">Bal: ${c.b}</span>
+                <p class="card-info">${c.d}</p>
+                <span class="price">₹${c.p}</span>
+                <button class="buy-btn" onclick="openPay('${c.p}')">BUY NOW</button>
+            </div>`;
         }
     </script>
 </body>
