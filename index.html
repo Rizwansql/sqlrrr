@@ -6,81 +6,66 @@
     <title>SQL PREMIUM HUB | RIZWAN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #0b0b0b; --wa: #25d366; --red: #ff4444; --paytm: #00baf2; --blue: #1a73e8; }
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: sans-serif; }
+        :root { --gold: #ffcc00; --dark: #0b0b0b; --wa: #25d366; --red: #ff4444; --blue: #00baf2; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background: #000; color: white; padding-top: 100px; height: 100dvh; overflow: hidden; }
 
-        /* Header & Nav */
+        /* Header Fix */
         .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; text-align: center; font-size: 11px; }
         header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 65px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; width: 100%; }
-        .logo { font-size: 1.2rem; font-weight: 900; color: var(--gold); }
-        .header-icons { display: flex; gap: 15px; align-items: center; }
+        .logo { font-size: 1.2rem; font-weight: 900; color: var(--gold); text-transform: uppercase; }
         .menu-icon { color: var(--gold); font-size: 1.6rem; cursor: pointer; }
 
-        /* Google Translate Tab */
-        #google_translate_element { position: fixed; bottom: 100px; left: 10px; z-index: 4000; }
+        /* Login Modal (New Username/Password) */
+        #login-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9000; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        .login-box { background: #111; padding: 30px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; width: 100%; max-width: 380px; box-shadow: 0 0 20px rgba(255, 204, 0, 0.2); }
+        .login-input { width: 100%; padding: 15px; background: #000; border: 1px solid #333; color: white; border-radius: 10px; margin-bottom: 15px; outline: none; }
+        .login-input:focus { border-color: var(--gold); }
+        .login-btn { background: var(--gold); color: #000; font-weight: 900; width: 100%; padding: 15px; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
 
-        /* Sidebar */
-        #side-menu { position: fixed; top: 0; right: -280px; width: 270px; height: 100%; background: #0a0a0a; z-index: 4000; transition: 0.3s; padding-top: 60px; border-left: 2px solid var(--gold); }
-        .menu-item { padding: 18px 25px; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; font-weight: bold; cursor: pointer; }
+        /* Sidebar & Menu */
+        #side-menu { position: fixed; top: 0; right: -280px; width: 270px; height: 100%; background: #0a0a0a; z-index: 4000; transition: 0.3s; padding-top: 50px; border-left: 2px solid var(--gold); overflow-y: auto; }
+        .user-section { padding: 20px; text-align: center; background: #111; border-bottom: 1px solid var(--gold); }
+        .wallet-box { background: #1a1a1a; padding: 10px; border-radius: 12px; margin-top: 10px; border: 1px dashed var(--gold); }
+        .balance-amt { color: #00ff88; font-size: 1.2rem; font-weight: 900; }
+        .menu-item { padding: 15px 20px; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; font-weight: bold; cursor: pointer; }
         .menu-item i { color: var(--gold); width: 20px; }
 
-        /* User Profile & Wallet Section */
-        .user-section { padding: 20px; border-bottom: 2px solid var(--gold); text-align: center; background: #111; }
-        .wallet-box { background: #222; padding: 10px; border-radius: 10px; margin-top: 10px; border: 1px dashed var(--gold); }
-        .balance-amt { color: #00ff88; font-size: 1.2rem; font-weight: 900; }
-
-        /* Cards Grid & New Page */
-        .container { padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 120px; }
+        /* Cards Layout Fix */
+        .container { padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; height: calc(100vh - 100px); overflow-y: auto; padding-bottom: 150px; }
         .page-content { display: none; }
         .active-page { display: grid; }
-        
-        .card { background: #111; border: 1px solid #222; border-radius: 15px; padding: 12px; text-align: center; border-bottom: 4px solid #1a1a1a; position: relative; }
-        .card img { height: 35px; margin-bottom: 8px; }
-        .coming-soon-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: var(--gold); font-size: 0.8rem; z-index: 5; }
-
-        /* UI Buttons */
-        .buy-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; }
-
-        /* Login Modal */
-        #login-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 7000; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .login-box { background: #111; padding: 30px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; width: 100%; max-width: 350px; }
-        .google-btn { background: white; color: #444; padding: 12px; border-radius: 5px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: bold; cursor: pointer; margin-top: 20px; }
+        .card { background: #111; border: 1px solid #222; border-radius: 15px; padding: 12px; text-align: center; position: relative; }
+        .img-container { height: 50px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+        .card img { max-height: 45px; width: auto; object-fit: contain; }
+        .price { color: #00ff88; font-size: 1.2rem; font-weight: bold; display: block; margin: 8px 0; }
+        .buy-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        .coming-soon-tag { position: absolute; top: 5px; right: 5px; background: var(--red); font-size: 8px; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
 
         /* Payment Modal */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 6000; display: none; justify-content: center; align-items: center; padding: 20px; }
-        .pay-box { background: #111; padding: 25px; border: 2px solid var(--gold); border-radius: 25px; width: 100%; max-width: 400px; text-align: center; }
-        .p-btn { background: #1a1a1a; margin: 8px 0; padding: 12px; border-radius: 12px; display: flex; align-items: center; gap: 15px; color: white; text-decoration: none; border: 1px solid #333; font-weight: bold; cursor: pointer; }
-        .p-btn img { width: 25px; height: 25px; border-radius: 5px; }
-        .v-input { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #00ff88; text-align: center; border-radius: 10px; margin: 10px 0; font-weight: bold; }
-        .v-btn { background: #00ff88; color: black; border: none; padding: 14px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; }
-
-        .bot-trigger { position: fixed; bottom: 25px; right: 25px; background: var(--wa); width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4500; border: 3px solid white; }
+        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 7000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .box { background: #111; padding: 25px; border-radius: 20px; border: 1px solid var(--gold); text-align: center; width: 100%; max-width: 350px; }
     </style>
 </head>
 <body>
 
-    <div id="google_translate_element"></div>
-
     <div id="login-modal">
         <div class="login-box">
-            <h2 style="color:var(--gold)">SQL HUB LOGIN</h2>
-            <p style="font-size: 12px; color: #888; margin-top: 5px;">Secure Access for Ethical Hackers</p>
-            <div class="google-btn" onclick="loginUser('Gmail User')">
-                <img src="https://img.icons8.com/color/24/google-logo.png"/> Login with Google
-            </div>
-            <div class="google-btn" style="background:#333; color:white; margin-top:10px;" onclick="loginUser('Demo User')">
-                <i class="fas fa-envelope"></i> Login with Email
-            </div>
+            <h2 style="color:var(--gold); margin-bottom: 5px;">PREMIUM ACCESS</h2>
+            <p style="color:#666; font-size: 11px; margin-bottom: 20px;">AUTHENTICATION REQUIRED</p>
+            <input type="text" id="user-in" class="login-input" placeholder="Username (e.g. Rizwan)">
+            <input type="password" id="pass-in" class="login-input" placeholder="Password">
+            <button class="login-btn" onclick="handleLogin()">Login Securely</button>
+            <p style="color:var(--gold); font-size: 10px; margin-top: 15px; opacity: 0.7;">"असली शक्ति ज्ञान और संयम में है।" - सुकरात</p>
         </div>
     </div>
 
-    <div class="top-line">SQL HUB OFFICIAL 💯 NEW SERVICES ADDED | 100% SECURE</div>
+    <div class="top-line">SQL HUB OFFICIAL 💯 NEW SERVICES READY | RIZWAN</div>
     
     <header>
         <div class="logo">SQL PREMIUM HUB</div>
-        <div class="header-icons">
-            <div id="user-display" style="font-size: 12px; font-weight: bold; color: var(--gold);"></div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span id="u-display" style="font-size:10px; color:var(--gold); font-weight: bold;"></span>
             <div class="menu-icon" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
         </div>
     </header>
@@ -89,88 +74,79 @@
         <i class="fas fa-times" onclick="toggleMenu()" style="position:absolute; top:15px; left:15px; color:var(--red); font-size:1.5rem;"></i>
         
         <div class="user-section">
-            <i class="fas fa-user-circle" style="font-size: 40px; color: var(--gold);"></i>
-            <p id="profile-name" style="margin-top:5px;">Guest User</p>
+            <i class="fas fa-user-shield" style="font-size: 35px; color: var(--gold);"></i>
+            <p id="profile-name" style="font-weight: bold; margin-top: 5px;"></p>
             <div class="wallet-box">
-                <span style="font-size:11px;">Available Balance</span><br>
+                <span style="font-size:10px; color: #888;">Available Balance</span><br>
                 <span class="balance-amt" id="wallet-bal">₹0.00</span>
             </div>
-            <button class="buy-btn" style="margin-top:10px; padding:8px;" onclick="openPay('Add Fund')">➕ Add Fund</button>
+            <button class="buy-btn" style="margin-top:10px; padding:6px; font-size:11px;" onclick="openPay('Add Fund')">➕ ADD FUND</button>
         </div>
 
-        <a class="menu-item" onclick="showPage('home')"><i class="fas fa-th-large"></i> Card Market</a>
-        <a class="menu-item" onclick="showPage('services')"><i class="fas fa-star"></i> New Services ✨</a>
-        <a href="https://t.me/SQL_RRR" class="menu-item" style="color:#0088cc"><i class="fab fa-telegram"></i> Join Telegram</a>
-        <a href="https://wa.me/919012277862" class="menu-item" style="color:var(--wa)"><i class="fab fa-whatsapp"></i> Contact Owner</a>
-        <a class="menu-item" onclick="location.reload()" style="color:var(--red)"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <div id="google_translate_element" style="padding: 15px;"></div>
+
+        <a class="menu-item" onclick="showPage('home')"><i class="fas fa-shopping-cart"></i> Card Market</a>
+        <a class="menu-item" onclick="showPage('services')"><i class="fas fa-bolt"></i> New Services</a>
+        <a class="menu-item" onclick="location.reload()"><i class="fas fa-sync-alt"></i> Refresh Hub</a>
+        <a href="https://t.me/SQL_RRR" class="menu-item"><i class="fab fa-telegram"></i> Join Telegram</a>
+        <a href="https://wa.me/919012277862" class="menu-item"><i class="fab fa-whatsapp"></i> Contact Owner</a>
+        <a class="menu-item" onclick="location.reload()" style="color:var(--red)"><i class="fas fa-sign-out-alt"></i> Logout System</a>
     </div>
 
-    <div class="container page-content active-page" id="home">
-        </div>
+    <div class="container page-content active-page" id="home"></div>
 
     <div class="container page-content" id="services">
         <div class="card">
-            <img src="https://img.icons8.com/color/96/youtube-play.png">
+            <div class="img-container"><img src="https://img.icons8.com/color/96/youtube-play.png"></div>
             <b>YouTube Premium</b>
-            <span class="card-bal">1 Month Plan</span>
-            <p class="card-info">Ad-Free | Background Play</p>
+            <p style="font-size:10px; color:#aaa;">1 Month / No Ads</p>
             <span class="price">₹120</span>
             <button class="buy-btn" onclick="openPay('120')">Buy Now</button>
         </div>
         <div class="card">
-            <img src="https://img.icons8.com/color/96/sony-liv.png" style="border-radius: 5px;">
-            <b>Sony LIV Premium</b>
-            <span class="card-bal">1 Month Plan</span>
-            <p class="card-info">All Live Sports & Originals</p>
+            <div class="img-container"><img src="https://upload.wikimedia.org/wikipedia/en/c/c5/SonyLIV_logo.png"></div>
+            <b>Sony LIV</b>
+            <p style="font-size:10px; color:#aaa;">1 Month / Premium</p>
             <span class="price">₹160</span>
             <button class="buy-btn" onclick="openPay('160')">Buy Now</button>
         </div>
-        <div class="card">
-            <div class="coming-soon-overlay">COMING SOON</div>
-            <img src="https://img.icons8.com/color/96/netflix.png">
-            <b>Netflix Premium</b>
+        <div class="card" style="opacity: 0.6;">
+            <span class="coming-soon-tag">LOCKED</span>
+            <div class="img-container"><img src="https://img.icons8.com/color/96/netflix.png"></div>
+            <b>Netflix</b>
             <span class="price">₹???</span>
-            <button class="buy-btn">Locked</button>
-        </div>
-        <div class="card">
-            <div class="coming-soon-overlay">COMING SOON</div>
-            <img src="https://img.icons8.com/color/96/amazon-prime-video.png">
-            <b>Amazon Prime</b>
-            <span class="price">₹???</span>
-            <button class="buy-btn">Locked</button>
+            <button class="buy-btn" disabled>Coming Soon</button>
         </div>
     </div>
 
-    <div class="bot-trigger" onclick="toggleAI()"><i class="fas fa-robot" style="color:white; font-size:32px;"></i></div>
-
     <div id="pay-modal">
-        <div class="pay-box">
-            <h2 style="color:var(--gold); margin-bottom:10px;">DEPOSIT FUND</h2>
-            <p id="p-amt" style="color:#00ff88; font-weight:900; margin-bottom:15px; font-size:1.4rem;"></p>
-            
-            <a id="gpay" href="#" class="p-btn"><img src="https://img.icons8.com/color/48/google-pay.png"> Google Pay</a>
-            <a id="ppay" href="#" class="p-btn"><img src="https://img.icons8.com/color/48/phone-pe.png"> PhonePe</a>
-            <a id="paytm" href="#" class="p-btn"><img src="https://img.icons8.com/color/48/paytm.png"> Paytm</a>
-            
-            <input type="text" id="txid" class="v-input" placeholder="Enter UTR / Transaction ID">
-            <button onclick="verifyLogic()" id="v-btn" class="v-btn">VERIFY & ADD BALANCE</button>
-            <button onclick="document.getElementById('pay-modal').style.display='none'" style="color:var(--red); border:none; background:none; margin-top:15px; font-weight:bold; cursor:pointer;">CANCEL</button>
+        <div class="box">
+            <h3 id="p-title" style="color:var(--gold)">SECURE PAYMENT</h3>
+            <p id="p-amt" style="color:#00ff88; font-weight:900; margin:15px 0; font-size:1.5rem;"></p>
+            <a id="upi-link" href="#" class="buy-btn" style="display: block; text-decoration: none; background: #00baf2; margin-bottom: 10px;">PAY VIA UPI APP</a>
+            <input type="text" id="txid" class="login-input" placeholder="Enter Transaction ID (UTR)">
+            <button onclick="verifyLogic()" id="v-btn" class="buy-btn">VERIFY & ADD BALANCE</button>
+            <button onclick="document.getElementById('pay-modal').style.display='none'" style="background:none; border:none; color:var(--red); margin-top:15px; cursor:pointer;">Cancel</button>
         </div>
     </div>
 
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script>
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({pageLanguage: 'hi'}, 'google_translate_element');
-        }
+        function googleTranslateElementInit() { new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); }
 
         let userWallet = 0;
         let checkCount = 0;
 
-        function loginUser(name) {
-            document.getElementById('login-modal').style.display = 'none';
-            document.getElementById('profile-name').innerText = name;
-            document.getElementById('user-display').innerText = "👤 " + name;
+        function handleLogin() {
+            const user = document.getElementById('user-in').value;
+            const pass = document.getElementById('pass-in').value;
+            if(user.length > 2 && pass.length > 2) {
+                document.getElementById('login-modal').style.display = 'none';
+                document.getElementById('profile-name').innerText = user.toUpperCase();
+                document.getElementById('u-display').innerText = "Member: " + user;
+            } else {
+                alert("Please enter valid credentials!");
+            }
         }
 
         function toggleMenu() { 
@@ -178,62 +154,57 @@
             m.style.right = (m.style.right === '0px') ? '-280px' : '0px';
         }
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active-page'));
-            document.getElementById(pageId).classList.add('active-page');
+        function showPage(p) {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active-page'));
+            document.getElementById(p).classList.add('active-page');
             toggleMenu();
         }
 
         function openPay(amt) {
-            let finalAmt = amt === 'Add Fund' ? prompt("Enter amount to add:", "500") : amt;
-            if(!finalAmt) return;
-            
+            let val = amt === 'Add Fund' ? prompt("Enter Amount to Add:", "500") : amt;
+            if(!val) return;
             document.getElementById('pay-modal').style.display = 'flex';
-            document.getElementById('p-amt').innerText = "Amount: ₹" + finalAmt;
-            const upi = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${finalAmt}&cu=INR`;
-            document.getElementById('gpay').href = upi;
-            document.getElementById('ppay').href = upi;
-            document.getElementById('paytm').href = upi;
+            document.getElementById('p-amt').innerText = "₹" + val;
+            document.getElementById('upi-link').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${val}&cu=INR`;
             checkCount = 0;
         }
 
         function verifyLogic() {
             const b = document.getElementById('v-btn');
             const tx = document.getElementById('txid').value;
-            if(tx.length < 5) { alert("Invalid TXID"); return; }
+            if(tx.length < 5) { alert("Invalid Transaction ID!"); return; }
 
-            b.innerText = "PROCESSING... ⏳";
+            b.innerText = "⏳ PROCESSING...";
             setTimeout(() => {
                 if(checkCount === 0) {
-                    b.innerText = "MANUAL CHECK NEEDED ⚠️ SEND SCREENSHOT";
+                    b.innerText = "MANUAL REVIEW NEEDED ⚠️";
                     b.style.background = "orange";
                     checkCount++;
                 } else {
-                    // Success logic
-                    let added = parseInt(document.getElementById('p-amt').innerText.replace("Amount: ₹", ""));
+                    let added = parseFloat(document.getElementById('p-amt').innerText.replace("₹", ""));
                     userWallet += added;
                     document.getElementById('wallet-bal').innerText = "₹" + userWallet.toFixed(2);
-                    alert("SUCCESS! ₹" + added + " Added to Wallet.");
+                    alert("✅ SUCCESS! Balance Updated.");
                     document.getElementById('pay-modal').style.display = 'none';
+                    document.getElementById('txid').value = "";
+                    b.innerText = "VERIFY PAYMENT"; b.style.background = "var(--gold)";
                 }
-            }, 2500);
+            }, 2000);
         }
 
-        // Card Loading
+        // Home Cards
         const cards = [
-            {n:"Visa Non-Vv", p:"1100", b:"₹15,000", d:"BIN: 4859xx", i:"https://img.icons8.com/color/96/visa.png"},
-            {n:"Master Non-Vv", p:"850", b:"₹10,500", d:"BIN: 5241xx", i:"https://img.icons8.com/color/96/mastercard.png"},
-            {n:"Amex Non-Vv", p:"600", b:"₹6,000", d:"BIN: 3714xx", i:"https://img.icons8.com/color/96/amex.png"}
+            {n:"Visa Gold Hub", p:"1100", b:"₹15,000", i:"https://img.icons8.com/color/96/visa.png"},
+            {n:"Master Elite", p:"850", b:"₹10,500", i:"https://img.icons8.com/color/96/mastercard.png"},
+            {n:"Amex Premium", p:"600", b:"₹6,000", i:"https://img.icons8.com/color/96/amex.png"}
         ];
         const g = document.getElementById('home');
-        for(let i=1; i<=10; i++) {
+        for(let i=1; i<=14; i++) {
             let c = cards[i % 3];
-            g.innerHTML += `
-            <div class="card">
-                <img src="${c.i}"><span style="color:#00ff88; font-size:10px; display:block;">LIVE ✅</span>
-                <b>${c.n} #${i}</b><br>
-                <span style="color:var(--gold); font-size:13px;">Bal: ${c.b}</span>
-                <p style="font-size:10px; color:#aaa;">${c.d}</p>
+            g.innerHTML += `<div class="card">
+                <div class="img-container"><img src="${c.i}"></div>
+                <b style="font-size:12px;">${c.n}</b>
+                <span style="color:var(--gold); font-size:11px; display:block;">Limit: ${c.b}</span>
                 <span class="price">₹${c.p}</span>
                 <button class="buy-btn" onclick="openPay('${c.p}')">Buy Now</button>
             </div>`;
