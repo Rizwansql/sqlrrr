@@ -31,8 +31,8 @@
         .price { color: #00ff88; font-size: 1.3rem; font-weight: bold; display: block; margin-bottom: 10px; }
         .buy-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: 900; cursor: pointer; }
 
-        /* WhatsApp Style AI Chat Window */
-        #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://i.imgur.com/8X3gQ6P.jpg') repeat; background-size: 400px; z-index: 5000; display: none; flex-direction: column; }
+        /* WhatsApp Style AI Chat Window - Clear Background */
+        #ai-window { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0e9d7b; background-image: url('https://i.pinimg.com/originals/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg'); background-size: 500px; background-repeat: repeat; z-index: 5000; display: none; flex-direction: column; }
         .ai-header { background: var(--wa-green); padding: 12px 15px; display: flex; align-items: center; gap: 15px; font-weight: bold; color: white; }
         .ai-header i { font-size: 1.6rem; cursor: pointer; }
         .ai-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
@@ -58,8 +58,8 @@
         .services-header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 8000; height: 65px; display: flex; align-items: center; justify-content: center; }
         .services-back { position: absolute; right: 20px; color: var(--gold); font-size: 1.6rem; cursor: pointer; }
         .services-container { padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; overflow-y: auto; padding-bottom: 120px; }
-        .service-card { background: #111; border: 1px solid #222; border-radius: 15px; padding: 20px; text-align: center; }
-        .service-card img { height: 70px; margin-bottom: 15px; border-radius: 12px; object-fit: contain; }
+        .service-card { background: #111; border: 1px solid #222; border-radius: 15px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .service-card img { height: 80px; width: 80px; object-fit: contain; margin-bottom: 15px; }
         .service-price { color: #00ff88; font-size: 1.8rem; font-weight: bold; margin: 10px 0; }
         .coming-soon { color: orange; font-weight: bold; font-size: 1.3rem; }
     </style>
@@ -79,7 +79,6 @@
         <a href="https://t.me/SQL_RRR" class="menu-item" style="color:#0088cc"><i class="fab fa-telegram"></i> Join Telegram</a>
         <a href="https://wa.me/919012277862" class="menu-item" style="color:var(--wa)"><i class="fab fa-whatsapp"></i> Contact Owner</a>
         
-        <!-- Translate button removed as requested -->
         <div class="menu-item" onclick="openServices()"><i class="fas fa-concierge-bell"></i> New Services</div>
     </div>
 
@@ -143,7 +142,7 @@
                 <button class="buy-btn" onclick="openPayFromServices('160')">Buy Now</button>
             </div>
 
-            <!-- Coming Soon (8 total) -->
+            <!-- Coming Soon -->
             <div class="service-card">
                 <img src="https://img.icons8.com/color/96/netflix.png" alt="Netflix">
                 <b>Netflix Premium</b>
@@ -291,4 +290,4 @@
         }
     </script>
 </body>
-                                                     </html>
+                    </html>
