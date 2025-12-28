@@ -6,158 +6,183 @@
     <title>SQL PREMIUM HUB | RIZWAN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; --red: #ff3b3b; --blue: #007bff; --paytm: #00BAF2; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-        body { background: var(--dark); color: white; padding-top: 110px; height: 100dvh; overflow: hidden; position: relative; }
+        :root { --gold: #ffcc00; --dark: #000; --wa: #25d366; --red: #ff3b3b; --blue: #0088cc; --p-bg: #151515; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--dark); color: white; padding-top: 105px; height: 100dvh; overflow: hidden; }
 
-        /* Header Fix */
-        .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 3000; height: 30px; line-height: 30px; font-weight: 900; text-align: center; font-size: 10px; text-transform: uppercase; }
-        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 2000; height: 70px; display: flex; align-items: center; justify-content: center; }
-        .logo { font-size: 1.5rem; font-weight: 900; color: var(--gold); letter-spacing: 2px; }
-        .menu-btn { position: absolute; right: 20px; color: var(--gold); font-size: 1.8rem; cursor: pointer; z-index: 2500; }
+        /* --- Header & TopBar --- */
+        .top-line { background: var(--gold); color: #000; position: fixed; top: 0; width: 100%; z-index: 5000; height: 30px; line-height: 30px; font-weight: 900; text-align: center; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        header { background: #000; border-bottom: 2px solid var(--gold); position: fixed; top: 30px; width: 100%; z-index: 4000; height: 70px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .logo { font-size: 1.6rem; font-weight: 900; color: var(--gold); letter-spacing: 2px; }
+        .m-btn { position: absolute; right: 20px; color: var(--gold); font-size: 1.8rem; cursor: pointer; }
 
-        /* Side Menu Fix */
-        #side-menu { position: fixed; top: 0; right: -280px; width: 270px; height: 100%; background: #0a0a0a; z-index: 4000; transition: 0.3s; padding-top: 80px; border-left: 2px solid var(--gold); }
-        .menu-item { padding: 18px 25px; border-bottom: 1px solid #1a1a1a; display: block; color: white; text-decoration: none; font-weight: bold; }
-        .close-btn { position: absolute; top: 20px; left: 20px; color: var(--red); font-size: 1.5rem; cursor: pointer; }
+        /* --- Sidebar Menu --- */
+        #menu { position: fixed; top: 0; right: -280px; width: 270px; height: 100%; background: #0a0a0a; z-index: 6000; transition: 0.4s; border-left: 2px solid var(--gold); padding-top: 50px; }
+        .menu-link { padding: 18px 25px; border-bottom: 1px solid #1a1a1a; display: block; color: white; text-decoration: none; font-weight: bold; font-size: 1.1rem; }
+        .menu-link i { margin-right: 12px; color: var(--gold); }
+        .close-m { position: absolute; top: 15px; left: 15px; color: var(--red); font-size: 1.5rem; cursor: pointer; }
 
-        /* Cards Grid */
-        .container { padding: 15px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; height: calc(100vh - 110px); overflow-y: auto; padding-bottom: 120px; }
-        .card { background: #111; border: 1px solid #333; border-radius: 15px; padding: 12px; text-align: center; border-bottom: 3px solid #222; }
+        /* --- Card Grid Layout --- */
+        .container { padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; height: calc(100vh - 105px); overflow-y: auto; padding-bottom: 100px; }
+        .card { background: var(--p-bg); border: 1px solid #222; border-radius: 12px; padding: 12px; text-align: center; position: relative; border-bottom: 3px solid #333; }
         .card img { height: 35px; margin-bottom: 8px; }
-        .live-tag { color: #00ff88; font-weight: bold; font-size: 10px; display: block; margin-bottom: 5px; }
-        .price { color: #00ff88; font-size: 1.2rem; font-weight: 800; display: block; margin-bottom: 8px; }
-        .buy { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; }
+        .live-status { color: #00ff88; font-weight: bold; font-size: 10px; display: block; margin-bottom: 4px; }
+        .card-name { display: block; font-size: 14px; font-weight: 800; margin-bottom: 4px; color: #fff; }
+        .card-info { font-size: 10px; color: #777; margin-bottom: 10px; }
+        .price { color: #00ff88; font-size: 1.3rem; font-weight: 900; display: block; margin-bottom: 8px; }
+        .buy-btn { background: var(--gold); color: #000; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
 
-        /* Payment UI with BTC/USDT */
-        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 6000; display: none; justify-content: center; align-items: center; padding: 15px; }
-        .pay-box { background: #111; padding: 20px; border: 2px solid var(--gold); border-radius: 15px; width: 100%; max-width: 380px; text-align: center; max-height: 90vh; overflow-y: auto; }
-        .p-btn { padding: 10px; border-radius: 10px; margin: 6px 0; display: flex; align-items: center; gap: 10px; border: 1px solid #333; color: white; text-decoration: none; font-weight: bold; cursor: pointer; font-size: 14px; }
-        .p-btn img { width: 22px; }
-        .v-input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid var(--gold); background: #000; color: white; margin: 10px 0; text-align: center; }
+        /* --- AI Smart Window (Full Screen Fixed) --- */
+        #ai-box { position: fixed; bottom: 85px; right: 15px; width: 320px; height: 480px; background: #0b141a; z-index: 7000; display: none; flex-direction: column; border: 2px solid var(--gold); border-radius: 15px; overflow: hidden; transition: 0.3s; }
+        #ai-box.full { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 9000; }
+        .ai-head { background: #202c33; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--gold); }
+        .ai-chat { flex: 1; padding: 12px; overflow-y: auto; background: #000; display: flex; flex-direction: column; gap: 10px; }
+        .ai-foot { background: #202c33; padding: 12px; display: flex; gap: 8px; }
+        .ai-foot input { flex: 1; padding: 12px; border-radius: 20px; border: none; background: #2a3942; color: white; outline: none; font-size: 16px; }
+        .msg { padding: 10px 14px; border-radius: 12px; max-width: 85%; font-size: 0.95rem; }
+        .msg-ai { background: #202c33; align-self: flex-start; }
+        .msg-user { background: #005c4b; align-self: flex-end; }
 
-        /* AI Full Screen & Keyboard Fix */
-        #ai-window { position: fixed; bottom: 90px; right: 20px; width: 320px; height: 480px; background: #0b141a; z-index: 5000; display: none; flex-direction: column; border-radius: 15px; border: 2px solid var(--gold); transition: 0.3s; }
-        #ai-window.full-screen { width: 100% !important; height: 100% !important; bottom: 0 !important; right: 0 !important; border-radius: 0 !important; z-index: 7000; position: fixed; top: 0; left: 0; }
-        .ai-header { background: #202c33; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .ai-body { flex: 1; padding: 10px; overflow-y: auto; background: #000; display: flex; flex-direction: column; gap: 10px; }
-        .ai-footer { padding: 12px; display: flex; gap: 8px; background: #202c33; }
-        #ai-in { flex: 1; padding: 12px; border-radius: 20px; border: none; background: #2a3942; color: white; outline: none; font-size: 16px; } /* font-size 16px prevents zoom on mobile */
+        /* --- Payment Modal & Verify --- */
+        #pay-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); z-index: 8000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .pay-card { background: #111; padding: 20px; border: 2px solid var(--gold); border-radius: 20px; width: 100%; max-width: 380px; text-align: center; }
+        .pay-opt { background: #1a1a1a; padding: 12px; border-radius: 10px; margin: 8px 0; display: flex; align-items: center; gap: 15px; border: 1px solid #333; color: white; text-decoration: none; font-weight: bold; cursor: pointer; }
+        .pay-opt img { width: 30px; }
+        .v-input { width: 100%; padding: 12px; border: 1px solid var(--gold); background: #000; color: #00ff88; text-align: center; border-radius: 8px; margin: 15px 0 5px 0; font-family: monospace; }
+        #v-status { font-weight: 900; font-size: 0.9rem; margin-top: 8px; display: block; }
 
-        .bot-btn { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1000; border: 2px solid white; cursor: pointer; }
+        /* --- Floating Buttons --- */
+        .ai-trigger { position: fixed; bottom: 20px; right: 20px; background: var(--wa); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 5500; border: 2px solid white; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
     </style>
 </head>
 <body>
 
-    <div class="top-line">Verified Cards Hub • SQL PREMIUM HUB</div>
+    <div class="top-line">SQL PREMIUM HUB • NO.1 VCC & CARDS PROVIDER</div>
+    
     <header>
         <div class="logo">SQL PREMIUM HUB</div>
-        <div class="menu-btn" onclick="openMenu()"><i class="fas fa-bars"></i></div>
+        <div class="m-btn" onclick="openM()"><i class="fas fa-bars"></i></div>
     </header>
 
-    <div id="side-menu">
-        <i class="fas fa-times close-btn" onclick="closeMenu()"></i>
-        <a href="#" class="menu-item" onclick="location.reload()">Refresh Website</a>
-        <a href="https://t.me/SQL_RRR" class="menu-item" style="color:var(--blue)">Join Telegram</a>
+    <div id="menu">
+        <i class="fas fa-times close-m" onclick="closeM()"></i>
+        <a href="#" class="menu-link" onclick="location.reload()"><i class="fas fa-sync"></i> Refresh App</a>
+        <a href="https://t.me/SQL_RRR" class="menu-link" style="color:var(--blue)"><i class="fab fa-telegram"></i> Telegram Channel</a>
+        <a href="https://wa.me/919012277862" class="menu-link" style="color:var(--wa)"><i class="fab fa-whatsapp"></i> Chat with Rizwan</a>
     </div>
 
     <div class="container" id="grid"></div>
 
-    <div id="ai-window">
-        <div class="ai-header">
-            <span>SQL SMART AI</span>
+    <div class="ai-trigger" onclick="toggleAI()"><i class="fas fa-robot" style="color:white; font-size:28px;"></i></div>
+
+    <div id="ai-box">
+        <div class="ai-head">
+            <span style="font-weight:900;"><i class="fas fa-shield-alt"></i> SQL SMART BOT</span>
             <div>
-                <i class="fas fa-expand-alt" onclick="maximizeAI()" style="margin-right:15px; cursor:pointer; color:var(--gold);"></i>
-                <i class="fas fa-times" onclick="toggleAI()" style="cursor:pointer;"></i>
+                <i class="fas fa-expand-alt" onclick="fullAI()" style="cursor:pointer; margin-right:15px; color:var(--gold);"></i>
+                <i class="fas fa-times" onclick="toggleAI()" style="cursor:pointer; color:var(--red);"></i>
             </div>
         </div>
-        <div class="ai-body" id="chat"></div>
-        <div class="ai-footer">
-            <input type="text" id="ai-in" placeholder="Yahan likhein..." onkeydown="if(event.key==='Enter') sendMsg()">
-            <button onclick="sendMsg()" style="background:none; border:none; color:var(--gold); font-size:1.4rem;"><i class="fas fa-paper-plane"></i></button>
+        <div class="ai-chat" id="chat">
+            <div class="msg msg-ai">Salam Rizwan भाई! आपकी नई वेबसाइट अब बिल्कुल तैयार है।</div>
+        </div>
+        <div class="ai-foot">
+            <input type="text" id="ai-in" placeholder="Yahan likhein..." onkeydown="if(event.key==='Enter') talk()">
+            <button onclick="talk()" style="background:none; border:none; color:var(--gold); font-size:1.5rem;"><i class="fas fa-paper-plane"></i></button>
         </div>
     </div>
 
     <div id="pay-modal">
-        <div class="pay-box">
-            <h3 style="color:var(--gold);">PAYMENT METHODS</h3>
-            <p id="p-amt" style="margin:10px 0; color:#00ff88; font-weight:bold;"></p>
+        <div class="pay-card">
+            <h3 style="color:var(--gold); margin-bottom:10px;">SECURE CHECKOUT</h3>
+            <p id="amt-text" style="color:#00ff88; font-weight:900; margin-bottom:15px;"></p>
             
-            <a id="up-l" href="#" class="p-btn" style="background:#673ab7;"><img src="https://img.icons8.com/color/48/phone-pe.png"> PhonePe / UPI</a>
-            <a id="gp-l" href="#" class="p-btn" style="background:#fff; color:#000;"><img src="https://img.icons8.com/color/48/google-logo.png"> Google Pay</a>
-            <a id="py-l" href="#" class="p-btn" style="background:var(--paytm);"><img src="https://img.icons8.com/color/48/paytm.png"> Paytm Wallet</a>
+            <a id="up-l" href="#" class="pay-opt" style="background:#673ab7;"><img src="https://img.icons8.com/color/48/phone-pe.png"> UPI / PhonePe</a>
+            <div class="pay-opt" onclick="copyC('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a', 'USDT')" style="background:#26a17b;"><img src="https://img.icons8.com/color/48/tether.png"> USDT (BEP20)</div>
+            <div class="pay-opt" onclick="copyC('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a', 'BTC')" style="background:#f7931a;"><img src="https://img.icons8.com/color/48/bitcoin.png"> BTC (BEP20)</div>
             
-            <div class="p-btn" onclick="copyA('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a', 'BTC')" style="background:#f7931a;"><img src="https://img.icons8.com/color/48/bitcoin.png"> BTC (BEP20)</div>
-            <div class="p-btn" onclick="copyA('0xea67ed86d2a3f145a37f008c5bc0c523b50a039a', 'USDT')" style="background:#26a17b;"><img src="https://img.icons8.com/color/48/tether.png"> USDT (BEP20)</div>
-
-            <div style="border-top:1px solid #333; margin-top:10px; padding-top:10px;">
-                <input type="text" id="tid" class="v-input" placeholder="Enter Transaction ID">
-                <button onclick="verifyT()" style="background:var(--gold); border:none; padding:12px; width:100%; border-radius:8px; font-weight:bold;">VERIFY TRANSACTION</button>
-                <div id="v-res" style="margin-top:10px; font-weight:bold;"></div>
-            </div>
-            <button onclick="document.getElementById('pay-modal').style.display='none'" style="color:var(--red); border:none; background:none; margin-top:15px; cursor:pointer; font-weight:bold;">CANCEL</button>
+            <input type="text" id="tid" class="v-input" placeholder="Paste Transaction ID">
+            <button onclick="verify()" style="background:#00ff88; color:#000; border:none; padding:12px; width:100%; border-radius:8px; font-weight:900;">VERIFY PAYMENT</button>
+            <span id="v-status"></span>
+            
+            <button onclick="document.getElementById('pay-modal').style.display='none'" style="background:none; color:var(--red); border:none; margin-top:15px; font-weight:bold; cursor:pointer;">CANCEL</button>
         </div>
     </div>
 
-    <div class="bot-btn" onclick="toggleAI()"><i class="fas fa-robot" style="color:white; font-size:28px;"></i></div>
-
     <script>
-        // Menu Functions Fix
-        function openMenu() { document.getElementById('side-menu').style.right = '0'; }
-        function closeMenu() { document.getElementById('side-menu').style.right = '-280px'; }
+        // Menu Controls
+        function openM() { document.getElementById('menu').style.right = '0'; }
+        function closeM() { document.getElementById('menu').style.right = '-280px'; }
         
-        // AI Functions Fix
+        // AI Functions
         function toggleAI() { 
-            const w = document.getElementById('ai-window');
-            w.style.display = (w.style.display === 'flex') ? 'none' : 'flex';
+            const b = document.getElementById('ai-box');
+            b.style.display = (b.style.display==='flex') ? 'none' : 'flex';
         }
+        function fullAI() { document.getElementById('ai-box').classList.toggle('full'); }
 
-        function maximizeAI() {
-            const w = document.getElementById('ai-window');
-            w.classList.toggle('full-screen');
-            // Re-focus input to ensure keyboard works
-            setTimeout(() => document.getElementById('ai-in').focus(), 100);
-        }
-
-        async function sendMsg() {
+        async function talk() {
             const input = document.getElementById('ai-in');
             const chat = document.getElementById('chat');
-            const text = input.value.trim();
-            if(!text) return;
-            chat.innerHTML += `<div class="msg msg-user" style="background:#005c4b; align-self:flex-end; padding:10px; border-radius:10px; max-width:85%; margin-bottom:10px;">${text}</div>`;
+            if(!input.value.trim()) return;
+            chat.innerHTML += `<div class="msg msg-user">${input.value}</div>`;
+            const userMsg = input.value;
             input.value = '';
+            chat.scrollTop = chat.scrollHeight;
+
+            try {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyCBXjCWYhoCfjCciMBHnWpOFwy22bbADOI`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ contents: [{ parts: [{ text: userMsg }] }] })
+                });
+                const data = await res.json();
+                chat.innerHTML += `<div class="msg msg-ai">${data.candidates[0].content.parts[0].text}</div>`;
+            } catch (e) { chat.innerHTML += `<div class="msg msg-ai">Rizwan bhai, AI server busy hai.</div>`; }
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function openPay(amt) {
+        // Payment Logic
+        function buy(p) {
             document.getElementById('pay-modal').style.display = 'flex';
-            document.getElementById('p-amt').innerText = "Card Price: ₹" + amt;
-            const upi = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${amt}&cu=INR`;
-            document.getElementById('up-l').href = upi;
-            document.getElementById('gp-l').href = upi;
-            document.getElementById('py-l').href = upi;
+            document.getElementById('amt-text').innerText = "Card Price: ₹" + p;
+            document.getElementById('up-l').href = `upi://pay?pa=rizwanhasan90122778623@ybl&am=${p}&cu=INR`;
         }
-
-        function copyA(a, t) { navigator.clipboard.writeText(a); alert(t + " Address Copied!"); }
-
-        function verifyT() {
-            const res = document.getElementById('v-res');
-            res.innerHTML = "Checking... ⏳";
+        function copyC(a, t) { navigator.clipboard.writeText(a); alert(t + " Address Copied (BEP20)!"); }
+        
+        function verify() {
+            const st = document.getElementById('v-status');
+            const tid = document.getElementById('tid').value;
+            if(!tid) return alert("Please enter Transaction ID!");
+            st.innerHTML = "Checking Blockchain... ⏳";
+            st.style.color = "var(--gold)";
             setTimeout(() => {
-                const r = ["Success ✅ Processing!", "Check Needed ❌ ID Error", "Pending ⏳ Try again later"];
-                res.innerHTML = r[Math.floor(Math.random()*r.length)];
-            }, 2000);
+                const r = ["Success ✅ Processing Order...", "Checking Needed ❌ Send Screenshot", "Verification Pending ⏳ Try Later"];
+                const final = r[Math.floor(Math.random()*r.length)];
+                st.innerHTML = final;
+                st.style.color = final.includes("Success") ? "#00ff88" : "var(--red)";
+            }, 2500);
         }
 
-        const cards = [
-            {n:"Visa Gold", p:"1000", d:"Bal: ₹15k | Credit", i:"https://img.icons8.com/color/96/visa.png"},
-            {n:"Master Elite", p:"650", d:"Bal: ₹8k | Debit", i:"https://img.icons8.com/color/96/mastercard.png"}
+        // Card Generator
+        const items = [
+            {n:"Visa Platinum", p:"1200", d:"Bal: ₹15k | Credit", i:"https://img.icons8.com/color/96/visa.png"},
+            {n:"Master Gold", p:"750", d:"Bal: ₹9k | Debit", i:"https://img.icons8.com/color/96/mastercard.png"},
+            {n:"Amex Black", p:"550", d:"Bal: ₹6k | Business", i:"https://img.icons8.com/color/96/amex.png"}
         ];
         const g = document.getElementById('grid');
         for(let i=1; i<=30; i++) {
-            let c = cards[i % 2];
-            g.innerHTML += `<div class="card"><img src="${c.i}"><b>${c.n} #${i}</b><div style="font-size:10px; color:#888;">${c.d}</div><span class="live-tag">Live ✅</span><span class="price">₹${c.p}</span><button class="buy" onclick="openPay('${c.p}')">BUY NOW</button></div>`;
+            let c = items[i % 3];
+            g.innerHTML += `
+                <div class="card">
+                    <img src="${c.i}">
+                    <span class="live-status">Live ✅</span>
+                    <b class="card-name">${c.n} #${i}</b>
+                    <p class="card-info">${c.d}</p>
+                    <span class="price">₹${c.p}</span>
+                    <button class="buy-btn" onclick="buy('${c.p}')">BUY NOW</button>
+                </div>`;
         }
     </script>
 </body>
-                </html>
+</html>
